@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<!--
+  Apple design elements applied (apple.com product + news pages / HIG):
+  - Canvas #ffffff / section #f5f5f7; cards #ffffff
+  - Text primary #1d1d1f; secondary #6e6e73 / #86868b; hairline #d2d2d7
+  - Link/CTA blue #0071e3; pill tabs (active #0071e3)
+  - SF system font stack; generous whitespace; max-width 980px
+  - Light mode only; PWA via data-URI manifest + apple-mobile-web-app metas + icon
+  - Tab panels: CSS + minimal JS, no frameworks; file:// openable
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0071e3">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="興趣速報">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="description" content="晨間興趣速報 · 20 Sep 2026 · Asia/Hong Kong">
+<title>晨間興趣速報 · 20 Sep 2026</title>
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjogIuiIiOi2o+mAn+WgsSIsICJzaG9ydF9uYW1lIjogIuiIiOi2o+mAn+WgsSIsICJkZXNjcmlwdGlvbiI6ICLmmajplpPoiIjotqPpgJ/loLEgwrcgQ2h1bmcgSGluIiwgInN0YXJ0X3VybCI6ICIuIiwgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmNWY1ZjciLCAidGhlbWVfY29sb3IiOiAiIzAwNzFlMyIsICJsYW5nIjogInpoLUhhbnQiLCAiaWNvbnMiOiBbeyJzcmMiOiAiZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFMUUFBQUMwQ0FZQUFBQTl6UVl5QUFBS1RFbEVRVlI0MnUzZHg0N2xOaEFGVUs2ZDQ4WTV1Ly9ST1c2Y3MvdXJ4cUVOdUIzbUx3WmUycGpGd0EyQkxGWWlWU3plQjl6ZHRLVHBQaWhjVVhwU3VYUG5uMzhSSkVzS2Zna0lRQ01JUUNNSVFDTUlRQ01BalNBQWpTQUFqU0FBalNBQWpRQTBnZ0EwZ2dBMGdnQTBnZ0EwQXRBSUF0QUlBdERiNU9MeUZuNFBBQjA3ci85NGExancrd1hvTUhoZis0RWZJQWZvRUlBbGFMVUJjSUFlZ3BnTDhOWHZmMUxIaWh4L1A0QldJN2JBOVlRTzNBQk5RcllBZnVVN2V5ekFBWHRUMEJ6RW8rRjZRdWZnQnVnTklXc0J2L3p0eis3UkFnZnNEVUJySU0vRWEwVU8ySnVBbGtMV0lIN3BtM0h4d0wwajdBTElmTVFTa0M5Ky9VczNIc0FCT3pGb0MyUXBZQTVZYTZUQUxiQUJPaWxrSytBWHZwTEhDaHl3RTRGdVlmYUE3QTNYRTdvMzdDeW9TM2JNVXNoYXdNOS8rYXM1V3VBVzJObFFGMEJ1UXg2SjE0b2NzSk9BbG1LV1F0WUFmdTRMdjJpQVcyQm5RMTEyd1N5RjdJLzN5aDI1QlhaVzFHVTF6R2RBcHJBOSsvbVZlNlM0WjhFRzZFQ1lwWkN0Z0ovNXJCOHJjQXZzcktqTGJwZzFrQzFvdFpIZ2xzRE9qcnBrd0R3Q3NoYngwNS8rSm80WGJrL1lxNkl1SzJLMlRHVU5aRSs4VnVSVzJOcHB2UXJxc2l2bUhtUU40S2MrMFVjRFhBSjdGOVFsRStZUmtEbDRQVDhjNUNOaHI0NjZySXpaTXBVMWtFY0E1Z0szd3RaTzY5VlFsOGdYVFdaZzdrRStBN0VVTndWN05PcG9GMTlLMU9sTXJXYjBNSHRCanZ6eGhzMUZYVnY5QU9oQW1GZURMSVc5RytxeVFtK21UZ0F0RldObHlEM1lIaFdFczA0ZHJVK1g2TDJadTVwUnc4eUZ2RHBtcW1QM1lITW5OUWQxaEQ1ZElsWU42aVRRRzNQR3oyalVuSlBFN1VCcmVqTXd4ME1kclUrWDZMMjVkaElveFJ3QjhwTWYveDRLdGhRMTV5UXhRcDh1RWFzRzV5UXdHdWE3WUovNFNKK1I0TDFSUy9wMGV0Q1czbHhiMFRnTHN4enc5YW5BTmFnNUt4L1IrblNKT3AwNXZma016QzJBajM5NGJVNXIyeEZRUy9yME5xQ2xtS21xVVZ0bkhvbFpnL2l4RDlyUjRKNkJ1clpPYmVuVHMxR1hGYVl6cHplUHdzeEZUT0hsaG90N0ZtcEpuOTRPdEJVelZUVnFTM05XekQzSUZNeEgzLytESFFsd1Q5ZzNVZGVXOUN4OStrelVaYlhwek9uTm5wZzVrQ1dBTmNBcDJONm9KWDE2VzlEZW1LbXFZY0Y4WExtZ0lMZEFQdktlUEZ6Y0xkU1dGUkVLdGFSUFIwRmRWcDdPdGQ3c1BaVTVrRFdJSmJpNXNMVWZTWi9lSHZSb3pCN1RtWU9aaS9qaGQvOFVoNHQ3RkdwdG40Nkl1bVNaenJNd2V3Q1dBajhMTlVBbndHeUIvTkE3K25qQUJ1cU5RV3N4U3hBLytQWmZ6VWh3ejBJTjBBTFEyVEJMQWZmU2c1MEY5YktnWjAxbnk5SWNoWmtMdVFYMGdiZjY0ZUx1d2FaUWE1YjBWcDdTcDRJK2N6cGJNV3NSUzNCN29UNXJTcWNGSFdVNlU2c1pXc3cxblBlLytUYzdQZHdhMUxYVmowaFRlam5RbHJveGFqcFR2Wm5DeklVc1FjekYzWVBOUWEzdDA5SXBIYVYybEZYcmhsZlZxSjBBU2pEWFlONzNCajg5MkZ6VXRSUEZDRk02TFdpUHVtR2R6cHplck1YY3gzdGJoTnVDMnF0UEg2ZTBSKzFZRm5URXV0R3JHclhPcklFcytXaGdVNTNhYzByUHFCM2hRVXY2ODR5Nlllbk5Fc3dlSHd0cVNaK2VWVHZPNk5GVFFVZXFHNzJxVWFzWkl6RnpVZGZxeDh3cGJha2RhVUJMK3JObjNkQmlyazNuMFpBNXNGdFRlaVJxYnUySTBxTkxsUFhuTSt0R3IyclVKdk9NRDJkU3o1alNvM3IwTXFCSDlXZkpkRDVlNHRaaXJrM25tWi9XbE5haTFsd1N2emVsUi9Yb3NLQzkxNS9QcUJ1OXFuSEdoMXM5WnRlT2lPdlJKZUlKNGF6K0xNVjhObWdwNmxrOU90S0pZU2pRby92eml0UFpjMHFQN3RGYmdEN2poUEJlZjdiVWpVaVlLZFNXMmlIcDBkNG5oc3VCOWw3aEdOV2ZWNWpPbWlrOXFrZEhYK2s0RmZTb0N5b1U2QlhyaGtmdDhPN1JuSldPRktBbDkzRE1CTDE2M2ZDcUhkRkFleS9kbGFocjBONHJIQnpRa2FjelowclBCQzFadWdOb1I5Q2NFOElWNm9ha2RrZ3VzQUEwUUFNMFFBTTBRQzhHK3VMUzZ6NW8yMVhDLysvaHVIWUNmVHNZNk50T29HVnIwVzNRVnk2ZzcvckJoTWFFeG9RR2FJQUdhSUFHYUlER09qVFdvVGNCalN1RnVGSzRER2pjeTRGN09WTGR5NEc3N1hDM1hjcTc3WEEvTk82SFRuVS9OTDZ4Z20rc2JQOFZMSHlua01hTTd4VGlXOS80MWplKzlZM25jdUM1SFBvVHdsVFA1Y0NUazhaaXhwT1Q4R3c3UE5zT3o3YkQwMGZ4OUZIYkJaWDBUeC9GODZGOU1PUDUwSGlDdjJwSzR3bitzcnFSK2duK2VNY0szckdTOGgwcmVBc1czb0sxMVd2ZDhKNUN2S2R3R2RCNGt5emVKSnZxVGJKNDF6ZmU5YjNseSt2UG1OTEhTK0lXMUMzWVhOeXRuejN1dzRKWmNvbDd4blJlRnZTczJtR1owajNVRXRnVWJrNXEyK3RCN21FK2N6cWZVVGVtZ3M2SXVnV2JBNXo2dWVNK3NtQUc2SUdnTGFocnNIdTRlNmx0NzdqUGtaZ0JPakZxSzJ4cnBKQ0JPUkhvTTFEWFlGdUF0N1oxM09kTXpBQWRZRXByVmowa3FHdXdLZHlhMUxaL1BBWlB6RGRYTlZhZnpzdUNIbEU5amt0Nkd0aGEzSzF0Y1NGcmx1WWtWUU9nSjA1cGI5VFV0SzdCcG5CclV0dis4Umc4cG5JUDg0clRlU25Rcy9wMERUVVh0Z1k0dFIwSzhnak1uS29CMEFPbU5MZFBXMUZ6WUhPQWM5UGF0aWZrSTJaT2IxNWxPb2NIYmUzVFhxaHJzQ25jSE9TOW42M3R6K1BEeGN5cEd0dUR0a3hwYlovMlJOMkN6Y0hOU1d2YlhwOGVaazV2amp5ZFE0SzI5dWtacUdzckl2MWNpLzY5WmVYQ0d6T25hbXdMV2pLbHRYMTZGbW9iOExHQXJaZzV2VG5hZEE0RDJ0cW5vNkR1Z1QvajQ0MlpVelcyQTAxTmFXMmY3cUdPQXZ0c3lCck1uTjRjWVRxZkN0cmFwNEg2Zk15UnFrWW8wTm8rN1lVNkMreDcvNWVSbURtOWVWdlEwajdOWGZsb3JWTm5udFpTeUMzTTJwUEFDTk01QkdodG41Wk1haTdxRldFZklWc3cxeWJ6Q3IwNUhPaXpVYThJdXdkNVI4d2hRVXRQRWx1b1BXRkh3VjNyeUZiSUVzeFJlM05JME53K1BRSTFCL1padUZ1SWU1Qm5ZSTQybmNPQjFxRHVyWDVRcUxXd2IrTDJCbjV6dTYxOVN5QkxNZGRPQUZmQkhCSzBGZlVvMkJUdUduSnBldHV1SFk4bjVBeVl3NEtlaFpvRHU0V2JBOXlTMWo1cngwZEIzZ2x6YU5BOTFMMTFhZ3ExRmphRjI0Szh0ODNXc1VnZ1N6SFhWak9pWXc0UFdvSjZGR3dMYmt1NGlMMGhyNHg1Q2RBalVHdGhVN2cxMkxuYmFoMkxCUElPbUpjQjdZVmFBNXZDTFFFdUNiVy8ydkZKSUdmR3ZCVG8xc1dYbWJCN3VPbGNxWCsyZFN5eklLK0NlVG5RVnRRYTJCUnVPM0krM2haaUtlVE1tSmNFclVHdGdkM0N6UUh1bWRZeDFJNVhBamtqNW1WQno0Wk40ZlpFM3R0SDY5Z0FPUWxvTG1vTmJBbzNCN2hIcVAzWGpsY0NPU1BtRktBcDFGNndlN2l0MExuYmJoMmJCWEltekdsQWo0Qk40WllBdDRUYWYrMTRkNGFjRXZRUnRRWjJDM2NQdUFhOFpIdXRZNm9kdndSeUpzd3BRWHZDcG5CTGdVdEQ3YmQxckR0RFRnOWFDMXVMZTNTNGlIZUZ2QTFvQzJ3Szkwamt2WDIyam5WbnlOdUI1c0ttY0hPQWp3aDFQTFhqM3hIeXRxQmJzRnU0ZThBOW9YUDIwenJHMnY5bng3L3J0cUFwMkJSdUxuQ3ZVTWZST3ZhZC81N2JnN2JpOW9MTzNRY1FBN1FyYmlseVMzckhnTDhUUUE4RHJzVXUyUzcrRGdBZEJyazArUDBDZE9oY1hBSXBRQ01JUUNNQWpTQUFqU0FBalNBQWpTQUFqUUEwZ2dBMGdnQTBnZ0EwZ2dBMEF0QUlBdEFJQXRBSUF0QUlBdERJSnZrUGRRNGd4WjJPRUNrQUFBQUFTVVZPUks1Q1lJST0iLCAic2l6ZXMiOiAiMTgweDE4MCIsICJ0eXBlIjogImltYWdlL3BuZyIsICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSJ9XX0=">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<style>
+:root {
+  --canvas: #ffffff;
+  --section: #f5f5f7;
+  --card: #ffffff;
+  --text: #1d1d1f;
+  --secondary: #6e6e73;
+  --tertiary: #86868b;
+  --hairline: #d2d2d7;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --green: #34c759;
+  --orange: #ff9f0a;
+  --red: #ff3b30;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--section);
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47059;
+  letter-spacing: -0.022em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.page { max-width: 980px; margin: 0 auto; padding: 0 22px 80px; }
+
+/* Sticky tab bar */
+.tabbar-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(245,245,247,0.86);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--hairline);
+  margin: 0 -22px;
+  padding: 12px 22px 14px;
+}
+.tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 2px 0;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex: 0 0 auto;
+  appearance: none;
+  border: 1px solid var(--hairline);
+  background: var(--canvas);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  padding: 8px 16px;
+  border-radius: 980px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+.tab:hover { border-color: #b0b0b5; }
+.tab[aria-selected="true"] {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+}
+.tab:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 56px 12px 40px;
+  background: var(--canvas);
+  margin: 0 -22px 28px;
+  border-bottom: 1px solid var(--hairline);
+}
+.hero-kicker {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 14px;
+}
+.hero h1 {
+  font-size: clamp(28px, 5.5vw, 44px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.08349;
+  margin-bottom: 10px;
+}
+.hero .subhead {
+  font-size: 17px;
+  line-height: 1.47;
+  color: var(--secondary);
+}
+
+/* Panels */
+.panel { display: none; padding-top: 8px; }
+.panel.active { display: block; animation: fadeIn .22s ease; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .panel.active { animation: none; }
+  .card { transition: none !important; }
+  .card:hover { transform: none !important; }
+}
+
+.panel-intro {
+  margin: 8px 0 24px;
+}
+.panel-intro h2 {
+  font-size: clamp(24px, 3.5vw, 32px);
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  margin-bottom: 6px;
+}
+.panel-intro p { color: var(--secondary); font-size: 15px; max-width: 640px; }
+
+.stack { display: flex; flex-direction: column; gap: 20px; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--hairline);
+  border-radius: 18px;
+  padding: 32px 28px 28px;
+  transition: transform .28s cubic-bezier(.25,.1,.25,1), box-shadow .28s cubic-bezier(.25,.1,.25,1);
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 12px rgba(0,0,0,.08);
+}
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--blue);
+  margin-bottom: 8px;
+}
+.card h3 {
+  font-size: clamp(20px, 2.8vw, 26px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.copy { color: var(--secondary); margin-bottom: 14px; max-width: 720px; }
+.copy strong { color: var(--text); font-weight: 600; }
+.take { color: var(--text); margin-bottom: 20px; max-width: 720px; }
+.take .label { color: var(--blue); font-weight: 600; margin-right: 6px; }
+.facts {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  margin: 0 0 20px;
+  padding: 16px 18px;
+  background: var(--section);
+  border-radius: 14px;
+}
+.facts li {
+  font-size: 15px;
+  color: var(--secondary);
+  padding-left: 18px;
+  position: relative;
+}
+.facts li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.55em;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+.facts li strong { color: var(--text); font-weight: 600; }
+.source {
+  font-size: 12px;
+  color: var(--tertiary);
+  margin-top: 10px;
+  line-height: 1.4;
+}
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background: var(--blue);
+  padding: 10px 20px;
+  border-radius: 980px;
+  text-decoration: none;
+  transition: background .2s ease, opacity .2s ease;
+}
+.cta:hover { background: var(--blue-hover); text-decoration: none; opacity: .92; }
+.cta svg { width: 14px; height: 14px; }
+
+/* Chart blocks */
+.chart-block {
+  margin: 8px 0 22px;
+  padding: 20px 18px 16px;
+  background: var(--section);
+  border-radius: 16px;
+  border: 1px solid transparent;
+}
+.chart-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+.chart-svg { width: 100%; height: auto; display: block; }
+.chart-cite {
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--tertiary);
+  line-height: 1.45;
+}
+
+/* Comparison bars (tech) */
+.compare {
+  display: grid;
+  gap: 14px;
+  margin: 8px 0 20px;
+}
+.compare-row { display: grid; gap: 6px; }
+.compare-meta {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 13px; color: var(--secondary);
+}
+.compare-meta strong { color: var(--text); font-size: 15px; }
+.compare-track {
+  height: 12px; border-radius: 980px; background: #e8e8ed; overflow: hidden;
+}
+.compare-fill {
+  height: 100%; border-radius: 980px; background: var(--blue);
+}
+
+/* Timeline (Japan) */
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin: 8px 0 20px;
+}
+.tl-day {
+  background: var(--section);
+  border-radius: 14px;
+  padding: 14px 8px;
+  text-align: center;
+  border: 1px solid var(--hairline);
+}
+.tl-day .d { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+.tl-day .sev { font-size: 11px; color: var(--secondary); line-height: 1.35; }
+.tl-day.mild { border-color: #c7e7c7; background: #f2faf2; }
+.tl-day.bad { border-color: #ffd0c8; background: #fff5f3; }
+.tl-day.bad .sev { color: var(--red); font-weight: 600; }
+.tl-day.ok { border-color: #c7e0ff; background: #f3f8ff; }
+.tl-day.ok .sev { color: var(--blue); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.chip {
+  font-size: 12px; font-weight: 500;
+  padding: 6px 12px; border-radius: 980px;
+  background: var(--section); color: var(--secondary); border: 1px solid var(--hairline);
+}
+.chip.warn { background: #fff5f3; color: var(--red); border-color: #ffd0c8; }
+.chip.ok { background: #f2faf2; color: #248a3d; border-color: #c7e7c7; }
+
+/* Venue / pair cards */
+.venues, .pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 8px 0 20px;
+}
+.venue, .pair-item {
+  background: var(--section);
+  border-radius: 14px;
+  padding: 16px 18px;
+}
+.venue .name, .pair-item .v { font-weight: 600; font-size: 17px; }
+.venue .city, .pair-item .k {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
+  color: var(--tertiary); margin-bottom: 4px; text-transform: uppercase;
+}
+
+/* YouTube slots */
+.yt-section-title {
+  font-size: 21px; font-weight: 600; letter-spacing: -0.01em;
+  margin: 4px 0 18px;
+}
+.yt-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 640px) {
+  .yt-grid { grid-template-columns: 1fr 1fr; }
+}
+.yt-slot {
+  border: 1px solid var(--hairline);
+  background: var(--canvas);
+  border-radius: 16px;
+  padding: 22px;
+  min-height: 188px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  transition: transform .28s cubic-bezier(.25,.1,.25,1), box-shadow .28s cubic-bezier(.25,.1,.25,1);
+}
+.yt-slot:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 12px rgba(0,0,0,.08);
+}
+.yt-slot .slot-label {
+  font-size: 12px; font-weight: 600; color: var(--tertiary);
+  letter-spacing: 0.04em;
+}
+.yt-slot h4 {
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.28;
+  letter-spacing: -0.01em;
+}
+.yt-why {
+  color: var(--secondary);
+  font-size: 14px;
+  line-height: 1.45;
+}
+.yt-why-label {
+  color: var(--blue);
+  font-weight: 600;
+}
+.yt-slot .cta {
+  align-self: flex-start;
+  margin-top: 4px;
+}
+.yt-note {
+  margin-top: 18px; font-size: 13px; color: var(--tertiary);
+}
+
+.install {
+  margin-top: 48px;
+  background: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: 18px;
+  padding: 28px;
+}
+.install h3 { font-size: 19px; font-weight: 600; margin-bottom: 10px; }
+.install p { color: var(--secondary); font-size: 15px; margin-bottom: 6px; }
+.install .note { margin-top: 12px; font-size: 12px; color: var(--tertiary); }
+
+footer {
+  text-align: center;
+  margin-top: 56px;
+  padding-top: 28px;
+  border-top: 1px solid var(--hairline);
+}
+footer .brand { font-size: 14px; font-weight: 600; color: var(--secondary); margin-bottom: 4px; }
+footer .fine { font-size: 12px; color: var(--tertiary); line-height: 1.5; }
+
+@media (max-width: 640px) {
+  .hero { padding: 40px 16px 32px; }
+  .card { padding: 24px 20px 22px; }
+  .timeline { grid-template-columns: repeat(5, minmax(56px, 1fr)); gap: 6px; }
+  .tl-day { padding: 10px 4px; }
+  .venues, .pair { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="hero">
+    <p class="hero-kicker">Asia/Hong Kong</p>
+    <h1>晨間興趣速報</h1>
+    <p class="subhead">20 Sep 2026 · Asia/Hong Kong</p>
+  </header>
+
+  <nav class="tabbar-wrap" aria-label="主題分頁">
+    <div class="tabs" role="tablist">
+      <button type="button" class="tab" role="tab" id="tab-tech" aria-controls="panel-tech" aria-selected="true" data-panel="tech">科技</button>
+      <button type="button" class="tab" role="tab" id="tab-japan" aria-controls="panel-japan" aria-selected="false" data-panel="japan">日本旅遊</button>
+      <button type="button" class="tab" role="tab" id="tab-food" aria-controls="panel-food" aria-selected="false" data-panel="food">美食</button>
+      <button type="button" class="tab" role="tab" id="tab-invest" aria-controls="panel-invest" aria-selected="false" data-panel="invest">投資</button>
+      <button type="button" class="tab" role="tab" id="tab-games" aria-controls="panel-games" aria-selected="false" data-panel="games">遊戲</button>
+      <button type="button" class="tab" role="tab" id="tab-movies" aria-controls="panel-movies" aria-selected="false" data-panel="movies">電影</button>
+      <button type="button" class="tab" role="tab" id="tab-youtube" aria-controls="panel-youtube" aria-selected="false" data-panel="youtube">YouTube</button>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ========== 科技 ========== -->
+    <section class="panel active" id="panel-tech" role="tabpanel" aria-labelledby="tab-tech">
+      <div class="panel-intro">
+        <h2>科技</h2>
+        <p>記憶體頻寬成為推論戰場的一週。</p>
+      </div>
+      <div class="stack">
+        <article class="card">
+          <p class="eyebrow">FUNDING · AI INFRASTRUCTURE</p>
+          <h3>Positron：$875M 打造 memory-first 推論晶片</h3>
+          <p class="copy">前 Lambda／Groq 團隊創辦的 Positron AI 完成約 <strong>$875M</strong> Series C／C-1，估值約 <strong>$5B</strong>，押注 LPDDR5X「記憶體優先」推論矽片 Asimov（TSMC N3P，目標 2026 年底 tapeout）與 Titan 伺服器量產。</p>
+          <div class="compare" aria-label="Funding comparison">
+            <div class="compare-row">
+              <div class="compare-meta"><span>本輪合計</span><strong>$875M</strong></div>
+              <div class="compare-track"><div class="compare-fill" style="width:100%"></div></div>
+            </div>
+            <div class="compare-row">
+              <div class="compare-meta"><span>Series C tranche</span><strong>$375M</strong></div>
+              <div class="compare-track"><div class="compare-fill" style="width:42.9%"></div></div>
+            </div>
+            <div class="compare-row">
+              <div class="compare-meta"><span>Series C-1 tranche</span><strong>$500M</strong></div>
+              <div class="compare-track"><div class="compare-fill" style="width:57.1%"></div></div>
+            </div>
+          </div>
+          <p class="source">相對寬度依公開 tranche 金額比例繪製（$375M / $500M）。來源：SDxCentral、公司新聞稿。</p>
+          <ul class="facts">
+            <li>架構重點：以 <strong>LPDDR5X</strong> 取代對 HBM／先進封裝的依賴，主打記憶體容量與頻寬。</li>
+            <li>產品線：現有 Atlas；下一代 Asimov 晶片 + Titan 系統（4–8 顆 Asimov／節點）。</li>
+            <li>時間表：Asimov <strong>2026 年底</strong> tapeout；量產目標 <strong>2027 下半年</strong>。</li>
+          </ul>
+          <p class="take"><span class="label">Take</span> 算力競賽下一關是 memory bandwidth——誰能餵飽模型，誰才算贏。</p>
+          <a class="cta" href="https://www.sdxcentral.com/news/former-lambda-groq-alums-secure-875m-to-build-memory-first-ai-inference-chips/" target="_blank" rel="noopener">SDxCentral 原文
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ========== 日本旅遊 ========== -->
+    <section class="panel" id="panel-japan" role="tabpanel" aria-labelledby="tab-japan" hidden>
+      <div class="panel-intro">
+        <h2>日本旅遊</h2>
+        <p>Silver Week 5 連休 × 颱風 25 號（ドゥージェン）。</p>
+      </div>
+      <div class="stack">
+        <article class="card">
+          <p class="eyebrow">SILVER WEEK · 9/19–23</p>
+          <h3>關東最吃緊：20–21 日避開移動</h3>
+          <p class="copy">秋雨前線＋颱風 25 號影響連休前半。根據 Weathernews：<strong>20–21 日</strong>雨風最惡劣（關東／伊豆諸島大雨暴風風險）；<strong>22–23 日</strong>天氣相對回復，較適合轉乘與戶外。</p>
+          <div class="timeline" aria-label="9/19–23 天氣嚴重度">
+            <div class="tl-day mild">
+              <div class="d">9/19</div>
+              <div class="sev">雨易降<br>傘必備</div>
+            </div>
+            <div class="tl-day bad">
+              <div class="d">20</div>
+              <div class="sev">強雨／大雨<br>最惡之一</div>
+            </div>
+            <div class="tl-day bad">
+              <div class="d">21</div>
+              <div class="sev">颱風最接近<br>暴風警戒</div>
+            </div>
+            <div class="tl-day ok">
+              <div class="d">22</div>
+              <div class="sev">趨緩<br>可移動</div>
+            </div>
+            <div class="tl-day ok">
+              <div class="d">23</div>
+              <div class="sev">秋分·回復<br>行樂較佳</div>
+            </div>
+          </div>
+          <div class="chips">
+            <span class="chip warn">機場延誤風險</span>
+            <span class="chip warn">新幹線擠塞</span>
+            <span class="chip warn">20–21 嚴戒</span>
+            <span class="chip ok">22–23 較平靜</span>
+          </div>
+          <ul class="facts">
+            <li>21 日（敬老の日）颱風預計以強勢力接近關東沖；總雨量伊豆諸島局地 300mm+、關東南部 200mm+ 風險。</li>
+            <li>東海以西連休多晴熱（約 30°C），熱中症仍需注意。</li>
+            <li>室內行程優先；把城際移動留到 22–23。</li>
+          </ul>
+          <p class="take"><span class="label">Take</span> 別把移動卡死在 20–21；連休後半再安排轉乘。</p>
+          <p class="source">來源：Weathernews（シルバーウィーク預報、颱風 25 號接近報導）。</p>
+          <a class="cta" href="https://weathernews.jp/news/202609/180131/" target="_blank" rel="noopener">Weathernews SW 預報
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ========== 美食 ========== -->
+    <section class="panel" id="panel-food" role="tabpanel" aria-labelledby="tab-food" hidden>
+      <div class="panel-intro">
+        <h2>美食</h2>
+        <p>台灣秋季菜單亮點。</p>
+      </div>
+      <div class="stack">
+        <article class="card">
+          <p class="eyebrow">AUTUMN MENU · TAIWAN</p>
+          <h3>Kiku（台北）× Li.nu（高雄）</h3>
+          <p class="copy">ELLE 美食整理的秋日焦點：台北 <strong>Kiku</strong> 與高雄 <strong>Li.nu</strong> 推出秋季菜單。稀有食材吸睛，真正難忘的仍是那一口餘韻。</p>
+          <div class="venues">
+            <div class="venue">
+              <div class="city">Taipei · 台北</div>
+              <div class="name">Kiku</div>
+            </div>
+            <div class="venue">
+              <div class="city">Kaohsiung · 高雄</div>
+              <div class="name">Li.nu</div>
+            </div>
+          </div>
+          <ul class="facts">
+            <li>季節主題：秋季限定菜色與在地／稀有食材組合（見 ELLE 報導）。</li>
+            <li>選店視角：不是比誰更稀有，而是哪一道會留在記憶裡。</li>
+          </ul>
+          <p class="take"><span class="label">Take</span> Memorable dishes &gt; rare ingredients。</p>
+          <a class="cta" href="https://www.elle.com/tw/life/foodie/g73531922/2026-kiku-autumn-menu/" target="_blank" rel="noopener">ELLE 美食原文
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ========== 投資 ========== -->
+    <section class="panel" id="panel-invest" role="tabpanel" aria-labelledby="tab-invest" hidden>
+      <div class="panel-intro">
+        <h2>投資</h2>
+        <p>Fed 路徑與韓股半導體一週。</p>
+      </div>
+      <div class="stack">
+        <article class="card">
+          <p class="eyebrow">FED · RATES</p>
+          <h3>Fed funds 3.75%–4.00%（+25bp · 16 Sep 2026）</h3>
+          <p class="copy">聯準會於 <strong>2026-09-16</strong> 再升 <strong>+25bp</strong>，聯邦基金目標區間現為 <strong>3.75%–4.00%</strong>。市場定價路徑（上沿摘要）：現約 <strong>~3.9%</strong> → 10 月 <strong>~4.0%</strong> → 12 月 <strong>~4.2%</strong> → 明年上半年 <strong>~4.5–4.6%</strong>。</p>
+
+          <div class="chart-block">
+            <div class="chart-title">Fed funds 上沿定價路徑（sourced points only）</div>
+            <!-- Rate path: Now 3.9, Oct 4.0, Dec 4.2, H1 4.55 (mid of 4.5-4.6) -->
+            <svg class="chart-svg" viewBox="0 0 560 260" role="img" aria-label="Fed funds upper-bound path chart">
+              <rect width="560" height="260" rx="8" fill="#f5f5f7"/>
+              <!-- Y axis labels 3.6–4.8 -->
+              <g font-family="-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif" font-size="11" fill="#86868b">
+                <text x="48" y="48" text-anchor="end">4.8%</text>
+                <text x="48" y="88" text-anchor="end">4.5%</text>
+                <text x="48" y="128" text-anchor="end">4.2%</text>
+                <text x="48" y="168" text-anchor="end">3.9%</text>
+                <text x="48" y="208" text-anchor="end">3.6%</text>
+              </g>
+              <!-- Grid lines -->
+              <g stroke="#d2d2d7" stroke-width="1">
+                <line x1="56" y1="44" x2="520" y2="44"/>
+                <line x1="56" y1="84" x2="520" y2="84"/>
+                <line x1="56" y1="124" x2="520" y2="124"/>
+                <line x1="56" y1="164" x2="520" y2="164"/>
+                <line x1="56" y1="204" x2="520" y2="204"/>
+              </g>
+              <!-- Axes -->
+              <line x1="56" y1="204" x2="520" y2="204" stroke="#1d1d1f" stroke-width="1.5"/>
+              <line x1="56" y1="36" x2="56" y2="204" stroke="#1d1d1f" stroke-width="1.5"/>
+              <!-- Map: y = 204 - (rate-3.6)/1.2 * 160 -->
+              <!-- Now 3.9 → y=164; Oct 4.0 → y≈150.7; Dec 4.2 → y=124; H1 4.55 → y≈77.3 -->
+              <polyline
+                fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                points="110,164 230,151 350,124 470,77"/>
+              <g fill="#0071e3">
+                <circle cx="110" cy="164" r="5"/>
+                <circle cx="230" cy="151" r="5"/>
+                <circle cx="350" cy="124" r="5"/>
+                <circle cx="470" cy="77" r="5"/>
+              </g>
+              <g font-family="-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif" font-size="12" fill="#1d1d1f" font-weight="600">
+                <text x="110" y="154" text-anchor="middle">~3.9%</text>
+                <text x="230" y="141" text-anchor="middle">~4.0%</text>
+                <text x="350" y="114" text-anchor="middle">~4.2%</text>
+                <text x="470" y="67" text-anchor="middle">~4.5–4.6%</text>
+              </g>
+              <g font-family="-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif" font-size="12" fill="#6e6e73">
+                <text x="110" y="228" text-anchor="middle">Now</text>
+                <text x="230" y="228" text-anchor="middle">Oct</text>
+                <text x="350" y="228" text-anchor="middle">Dec</text>
+                <text x="470" y="228" text-anchor="middle">H1 next yr</text>
+              </g>
+              <text x="8" y="22" font-family="-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif" font-size="11" fill="#86868b">Upper bound · %</text>
+            </svg>
+            <p class="chart-cite">來源：Federal Reserve／CNBC（現行 3.75%–4.00%、+25bp · 16 Sep 2026）；市場路徑摘要：Seoul Economic Daily。</p>
+          </div>
+
+          <div class="chart-block">
+            <div class="chart-title">KOSPI 週水準（收盤）</div>
+            <!-- Bars: Sep 11 6909.91, Sep 18 6894.23 — nearly flat; scale from 6800 baseline -->
+            <svg class="chart-svg" viewBox="0 0 560 260" role="img" aria-label="KOSPI weekly close bar chart">
+              <rect width="560" height="260" rx="8" fill="#f5f5f7"/>
+              <g font-family="-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif" font-size="11" fill="#86868b">
+                <text x="52" y="48" text-anchor="end">7,000</text>
+                <text x="52" y="98" text-anchor="end">6,950</text>
+                <text x="52" y="148" text-anchor="end">6,900</text>
+                <text x="52" y="198" text-anchor="end">6,850</text>
+              </g>
+              <g stroke="#d2d2d7" stroke-width="1">
+                <line x1="60" y1="44" x2="520" y2="44"/>
+                <line x1="60" y1="94" x2="520" y2="94"/>
+                <line x1="60" y1="144" x2="520" y2="144"/>
+                <line x1="60" y1="194" x2="520" y2="194"/>
+              </g>
+              <line x1="60" y1="194" x2="520" y2="194" stroke="#1d1d1f" stroke-width="1.5"/>
+              <line x1="60" y1="36" x2="60" y2="194" stroke="#1d1d1f" stroke-width="1.5"/>
+              <!-- y = 194 - (v-6850)/150 * 150 = 194 - (v-6850) -->
+              <!-- 6909.91 → y ≈ 134.1; 6894.23 → y ≈ 149.8 -->
+              <rect x="150" y="134" width="88" height="60" rx="6" fill="#0071e3" opacity="0.85"/>
+              <rect x="320" y="150" width="88" height="44" rx="6" fill="#0071e3"/>
+              <g font-family="-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif" font-size="13" fill="#1d1d1f" font-weight="600">
+                <text x="194" y="126" text-anchor="middle">6,909.91</text>
+                <text x="364" y="142" text-anchor="middle">6,894.23</text>
+              </g>
+              <g font-family="-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif" font-size="12" fill="#6e6e73">
+                <text x="194" y="218" text-anchor="middle">Sep 11</text>
+                <text x="364" y="218" text-anchor="middle">Sep 18</text>
+                <text x="364" y="236" text-anchor="middle" fill="#34c759" font-weight="600">週漲 +2.66%*</text>
+              </g>
+              <text x="8" y="22" font-family="-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif" font-size="11" fill="#86868b">Index close</text>
+            </svg>
+            <p class="chart-cite">*Sep 18 收盤 6,894.23（當日／報導所述 +2.66%）；前週末 Sep 11 收 6,909.91。KOSDAQ 827.12（+0.60%）。同週：SK hynix +2.5%、Samsung Electronics +0.6%。來源：Seoul Economic Daily。</p>
+          </div>
+
+          <ul class="facts">
+            <li>利率噪音外，韓股半導體資金回流敘事相對可讀。</li>
+            <li>本圖僅使用報導中的離散點，未外推未公開之時間序列。</li>
+          </ul>
+          <p class="take"><span class="label">Take</span> Asia semis 的資金故事，比「升息恐慌」敘事乾淨得多。</p>
+          <a class="cta" href="https://en.sedaily.com/finance/2026/09/20/kospi-nears-6900-as-foreign-investors-return-despite" target="_blank" rel="noopener">Seoul Economic Daily
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ========== 遊戲 ========== -->
+    <section class="panel" id="panel-games" role="tabpanel" aria-labelledby="tab-games" hidden>
+      <div class="panel-intro">
+        <h2>遊戲</h2>
+        <p>TGS 當週的兩種節奏。</p>
+      </div>
+      <div class="stack">
+        <article class="card">
+          <p class="eyebrow">TGS WEEK · RPG</p>
+          <h3>Another Eden Begins · MONOWAVE</h3>
+          <p class="copy">東京電玩展週，目光可分兩路——<strong>Another Eden Begins</strong> 的長線時空 RPG，以及 <strong>MONOWAVE</strong> 的輕量週末節奏。</p>
+          <div class="pair">
+            <div class="pair-item">
+              <div class="k">Long form</div>
+              <div class="v">Another Eden Begins</div>
+            </div>
+            <div class="pair-item">
+              <div class="k">Weekend light</div>
+              <div class="v">MONOWAVE</div>
+            </div>
+          </div>
+          <ul class="facts">
+            <li>Another Eden 宇宙持續擴張；官方站可跟進最新章節與活動。</li>
+            <li>週末想短火花選 MONOWAVE；想長旅途開 Another Eden。</li>
+          </ul>
+          <p class="take"><span class="label">Take</span> Light weekend vs long RPG——看你這週末要的是短火花，還是長旅途。</p>
+          <a class="cta" href="https://anothereden.games/" target="_blank" rel="noopener">anothereden.games
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ========== 電影 ========== -->
+    <section class="panel" id="panel-movies" role="tabpanel" aria-labelledby="tab-movies" hidden>
+      <div class="panel-intro">
+        <h2>電影</h2>
+        <p>週末串流片單。</p>
+      </div>
+      <div class="stack">
+        <article class="card">
+          <p class="eyebrow">NETFLIX · FEATURE</p>
+          <h3>Call My Agent! The Movie</h3>
+          <p class="copy">法劇《打電話問經紀人！》電影版 <strong>Call My Agent! The Movie</strong> 登上 Netflix——熟悉的事務所混亂、星光與溫暖吐槽回歸。不想進戲院的週末，串流正好補位。</p>
+          <div class="pair">
+            <div class="pair-item">
+              <div class="k">Now</div>
+              <div class="v">Call My Agent! The Movie</div>
+            </div>
+            <div class="pair-item">
+              <div class="k">Later</div>
+              <div class="v">Anime lineup（接力）</div>
+            </div>
+          </div>
+          <ul class="facts">
+            <li>類型：法式喜劇／影視產業幕後；適合週日晚間輕鬆觀看。</li>
+            <li>上架資訊以 Netflix Tudum「New on Netflix」為準。</li>
+          </ul>
+          <p class="take"><span class="label">Take</span> 週日晚間輕鬆片單首選——代理人世界的大螢幕延長賽。</p>
+          <a class="cta" href="https://www.netflix.com/tudum/articles/new-on-netflix" target="_blank" rel="noopener">Netflix Tudum
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ========== YouTube ========== -->
+    <section class="panel" id="panel-youtube" role="tabpanel" aria-labelledby="tab-youtube" hidden>
+      <div class="panel-intro">
+        <h2>YouTube</h2>
+        <p>訂閱與觀看紀錄驅動的個人化推薦區。</p>
+      </div>
+      <article class="card">
+        <h3 class="yt-section-title">今日 5 條可能會想睇</h3>
+        <div class="yt-grid" id="youtube-slots">
+          <article class="yt-slot" data-slot="1">
+            <span class="slot-label">Caedrel</span>
+            <h4>SPAIN VS FRANCE TO GO TO FINALS…</h4>
+            <p class="yt-why"><span class="yt-why-label">點解：</span>LoL esports (he watches LPL/IG)</p>
+            <a class="cta" href="https://www.youtube.com/watch?v=32TUDIbaH2I" target="_blank" rel="noopener">喺 YouTube 睇
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </article>
+          <article class="yt-slot" data-slot="2">
+            <span class="slot-label">呆梦demo官方频道</span>
+            <h4>创造奇迹！IG晋级世界赛…</h4>
+            <p class="yt-why"><span class="yt-why-label">點解：</span>LPL Worlds path</p>
+            <a class="cta" href="https://www.youtube.com/watch?v=DvtHG8DAA2g" target="_blank" rel="noopener">喺 YouTube 睇
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </article>
+          <article class="yt-slot" data-slot="3">
+            <span class="slot-label">好青年荼毒室</span>
+            <h4>【文仔哲學台】18/09/2026</h4>
+            <p class="yt-why"><span class="yt-why-label">點解：</span>HK talk / subscribed</p>
+            <a class="cta" href="https://www.youtube.com/watch?v=IqTOuQXq0SM" target="_blank" rel="noopener">喺 YouTube 睇
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </article>
+          <article class="yt-slot" data-slot="4">
+            <span class="slot-label">遊戲皮卡嚕 PikaLu</span>
+            <h4>《薩爾達：時之笛》但所有道具都是隨機的 Day 2</h4>
+            <p class="yt-why"><span class="yt-why-label">點解：</span>Nintendo/Switch interest</p>
+            <a class="cta" href="https://www.youtube.com/watch?v=cryAUN8TSEk" target="_blank" rel="noopener">喺 YouTube 睇
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </article>
+          <article class="yt-slot" data-slot="5">
+            <span class="slot-label">Happy Kongner</span>
+            <h4>2026-09-19 深宵心事台 2230</h4>
+            <p class="yt-why"><span class="yt-why-label">點解：</span>Cantonese/HK entertainment subscribed</p>
+            <a class="cta" href="https://www.youtube.com/watch?v=BimuqqA1D5o" target="_blank" rel="noopener">喺 YouTube 睇
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </article>
+        </div>
+        <p class="yt-note">根據你嘅訂閱同最近瀏覽推薦；已略過剛睇過嘅重複片。</p>
+      </article>
+    </section>
+  </main>
+
+  <aside class="install">
+    <h3>加到主畫面 / Install</h3>
+    <p><strong>iPhone：</strong>Safari 開啟本檔 → 分享 →「加入主畫面」。</p>
+    <p><strong>Mac Chrome：</strong>選單「安裝應用程式」／Install app，或加入書籤。</p>
+    <p class="note">完整離線 Service Worker 需 https 主機。本檔以 manifest data URI + Apple metas + 圖示支援「加入主畫面」。file:// 下瀏覽器通常阻擋 SW，故未強制註冊。</p>
+  </aside>
+
+  <footer>
+    <p class="brand">私人秘書 · 興趣精選</p>
+    <p class="fine">晨間興趣速報 · 20 Sep 2026 · Asia/Hong Kong</p>
+    <!-- TODO: replace with stable hosted URL when published -->
+    <p class="fine">Stable URL：<!--STABLE_URL-->（待設定固定網址）</p>
+  </footer>
+</div>
+<script>
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+  function activate(id) {
+    tabs.forEach(function (t) {
+      var on = t.getAttribute('data-panel') === id;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    panels.forEach(function (p) {
+      var on = p.id === 'panel-' + id;
+      p.classList.toggle('active', on);
+      if (on) p.removeAttribute('hidden');
+      else p.setAttribute('hidden', '');
+    });
+    try { history.replaceState(null, '', '#' + id); } catch (e) {}
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () { activate(t.getAttribute('data-panel')); });
+  });
+  var hash = (location.hash || '').replace(/^#/, '');
+  var valid = { tech:1, japan:1, food:1, invest:1, games:1, movies:1, youtube:1 };
+  activate(valid[hash] ? hash : 'tech');
+  try {
+    if (location.protocol === 'file:') document.documentElement.dataset.source = 'file';
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>
