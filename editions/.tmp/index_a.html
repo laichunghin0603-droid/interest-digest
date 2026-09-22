@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f5f5f7">
+<meta name="description" content="Chung Hin Interest Digest — 晨／晚刊存檔，每題多則可捲">
+<title>Interest Digest</title>
+<link rel="apple-touch-icon" href="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<style>
+:root {
+  --canvas:#fff; --section:#f5f5f7; --text:#1d1d1f; --secondary:#6e6e73;
+  --blue:#0071e3; --hairline:rgba(0,0,0,.08); --hairline-solid:#d2d2d7;
+  --material:rgba(255,255,255,.72);
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue","PingFang HK","Noto Sans TC",sans-serif;
+  --ease:cubic-bezier(.25,.1,.25,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;}
+body{
+  font-family:var(--font); background:var(--section); color:var(--text);
+  -webkit-font-smoothing:antialiased; min-height:100dvh;
+}
+.app{
+  display:flex; flex-direction:column; height:100%; height:100dvh;
+  max-width:980px; margin:0 auto;
+}
+.topbar{
+  position:sticky; top:0; z-index:50;
+  background:var(--material);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--hairline);
+  padding:10px max(16px, env(safe-area-inset-left)) 12px max(16px, env(safe-area-inset-right));
+  padding-top:calc(10px + env(safe-area-inset-top, 0px));
+}
+.brand{
+  display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+  margin-bottom:10px;
+}
+.brand h1{
+  font-size:15px; font-weight:600; letter-spacing:-0.01em;
+}
+.brand .live{
+  font-size:12px; color:var(--secondary); white-space:nowrap;
+}
+.date-pills{
+  display:flex; gap:8px; overflow-x:auto; -webkit-overflow-scrolling:touch;
+  scrollbar-width:none; padding:2px 0;
+}
+.date-pills::-webkit-scrollbar{display:none}
+.pill{
+  flex:0 0 auto; appearance:none; border:1px solid var(--hairline-solid);
+  background:var(--canvas); color:var(--text);
+  font:inherit; font-size:13px; font-weight:500;
+  padding:8px 14px; border-radius:980px; cursor:pointer;
+  white-space:nowrap; -webkit-tap-highlight-color:transparent;
+  transition:background 180ms var(--ease), color 180ms var(--ease),
+    border-color 180ms var(--ease), transform 100ms ease-out;
+}
+.pill:hover{border-color:#b0b0b5}
+.pill[aria-selected="true"]{
+  background:var(--blue); border-color:var(--blue); color:#fff;
+}
+.pill:active{transform:scale(.97)}
+.pill .slot{
+  opacity:.85; margin-left:4px;
+}
+.frame-wrap{
+  flex:1; position:relative; min-height:0;
+  background:var(--canvas);
+}
+.frame-wrap iframe{
+  position:absolute; inset:0; width:100%; height:100%; border:0;
+  background:var(--section);
+  opacity:1; transition:opacity 200ms var(--ease);
+}
+.frame-wrap.swapping iframe{opacity:0}
+.loading{
+  position:absolute; inset:0; display:grid; place-items:center;
+  color:var(--secondary); font-size:14px; pointer-events:none;
+  opacity:0; transition:opacity 160ms var(--ease);
+}
+.frame-wrap.swapping .loading{opacity:1}
+@media (prefers-reduced-motion:reduce){
+  .pill,.frame-wrap iframe,.loading{transition:none!important}
+  .pill:active{transform:none}
+}
+@media (prefers-reduced-transparency:reduce){
+  .topbar{background:#f5f5f7; -webkit-backdrop-filter:none; backdrop-filter:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <h1>Interest Digest</h1>
+      <span class="live" id="liveLabel">載入中…</span>
+    </div>
+    <div class="date-pills" role="tablist" aria-label="刊期（日期＋晨／晚）" id="pills"></div>
+  </header>
+  <div class="frame-wrap" id="frameWrap">
+    <div class="loading" id="loading">切換刊期…</div>
+    <iframe id="editionFrame" title="Interest Digest edition" src="about:blank"></iframe>
+  </div>
+</div>
+<script>
+(function(){
