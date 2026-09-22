@@ -1,6 +1,13 @@
 [
   {
     "date": "2026-09-22",
+    "slot": "evening",
+    "title": "晚間興趣速報",
+    "path": "editions/2026-09-22-evening.html",
+    "publishedAt": "2026-09-22T19:00:00+08:00"
+  },
+  {
+    "date": "2026-09-22",
     "slot": "morning",
     "title": "晨間興趣速報",
     "path": "editions/2026-09-22-morning.html",
