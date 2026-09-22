@@ -1,0 +1,119 @@
+
+  var MANIFEST = [{"date": "2026-09-22", "slot": "evening", "title": "晚間興趣速報", "path": "editions/2026-09-22-evening.html", "publishedAt": "2026-09-22T18:30:00+08:00"}, {"date": "2026-09-22", "slot": "morning", "title": "晨間興趣速報", "path": "editions/2026-09-22-morning.html", "publishedAt": "2026-09-22T09:00:00+08:00"}, {"date": "2026-09-21", "slot": "evening", "title": "晚間興趣速報", "path": "editions/2026-09-21-evening.html", "publishedAt": "2026-09-21T19:30:00+08:00"}, {"date": "2026-09-21", "slot": "morning", "title": "晨間興趣速報", "path": "editions/2026-09-21-morning.html", "publishedAt": "2026-09-21T09:00:00+08:00"}, {"date": "2026-09-20", "slot": "evening", "title": "晚間興趣速報", "path": "editions/2026-09-20-evening.html", "publishedAt": "2026-09-20T19:20:00+08:00"}, {"date": "2026-09-20", "slot": "morning", "title": "晨間興趣速報", "path": "editions/2026-09-20-morning.html", "publishedAt": "2026-09-20T08:30:00+08:00"}];
+  // prune older than ~90 days (client-side safety; server already pruned on write)
+  function parseDay(s){
+    var p = s.split('-');
+    return Date.UTC(+p[0], +p[1]-1, +p[2]);
+  }
+  var cutoff = Date.now() - 90*24*3600*1000;
+  MANIFEST = MANIFEST.filter(function(e){ return parseDay(e.date) >= cutoff - 24*3600*1000; });
+
+  var pillsEl = document.getElementById('pills');
+  var frame = document.getElementById('editionFrame');
+  var wrap = document.getElementById('frameWrap');
+  var live = document.getElementById('liveLabel');
+  var reduce = false;
+  try { reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e){}
+
+  function slotLabel(slot){ return slot === 'morning' ? '晨' : '晚'; }
+  function pillLabel(e){
+    // 9/20 晚
+    var p = e.date.split('-');
+    return (+p[1]) + '/' + (+p[2]) + ' ' + slotLabel(e.slot);
+  }
+  function keyOf(e){ return e.date + '-' + e.slot; }
+
+  function readQuery(){
+    var q = new URLSearchParams(location.search);
+    var date = q.get('date');
+    var slot = q.get('slot');
+    var hash = (location.hash||'').replace(/^#/, '');
+    // hash forms: 2026-09-20-evening | evening | tech (edition tab — ignore for shell)
+    if ((!date || !slot) && hash){
+      var m = hash.match(/^(\d{4}-\d{2}-\d{2})-(morning|evening)$/);
+      if (m){ date = m[1]; slot = m[2]; }
+      else if (hash === 'morning' || hash === 'evening'){ slot = hash; }
+    }
+    return { date: date, slot: slot };
+  }
+
+  function findEdition(date, slot){
+    if (date && slot){
+      for (var i=0;i<MANIFEST.length;i++){
+        if (MANIFEST[i].date===date && MANIFEST[i].slot===slot) return MANIFEST[i];
+      }
+    }
+    if (slot){
+      for (var j=0;j<MANIFEST.length;j++){
+        if (MANIFEST[j].slot===slot) return MANIFEST[j];
+      }
+    }
+    return MANIFEST[0];
+  }
+
+  var current = null;
+
+  function setUrl(ed, replace){
+    var url = '?date=' + encodeURIComponent(ed.date) + '&slot=' + encodeURIComponent(ed.slot) + '#' + ed.date + '-' + ed.slot;
+    try {
+      if (replace) history.replaceState(null, '', url);
+      else history.pushState(null, '', url);
+    } catch(e){}
+  }
+
+  function select(ed, opts){
+    opts = opts || {};
+    if (!ed) return;
+    if (current && keyOf(current)===keyOf(ed) && !opts.force) return;
+    current = ed;
+    Array.prototype.forEach.call(pillsEl.querySelectorAll('.pill'), function(btn){
+      var on = btn.getAttribute('data-key') === keyOf(ed);
+      btn.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    live.textContent = ed.title + ' · ' + ed.date.replace(/-/g,'/') + ' · ' + slotLabel(ed.slot) + '刊';
+    if (!opts.skipUrl) setUrl(ed, !!opts.replaceUrl);
+    if (!reduce) wrap.classList.add('swapping');
+    var target = ed.path + (opts.tabHash ? opts.tabHash : '');
+    // slight delay for fade
+    var go = function(){
+      frame.onload = function(){
+        wrap.classList.remove('swapping');
+        frame.onload = null;
+      };
+      frame.src = ed.path;
+    };
+    if (reduce) go(); else setTimeout(go, 90);
+  }
+
+  MANIFEST.forEach(function(ed, idx){
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'pill';
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('data-key', keyOf(ed));
+    btn.setAttribute('aria-selected', 'false');
+    btn.innerHTML = pillLabel(ed).replace(/(晨|晚)$/, '<span class="slot">$1</span>');
+    // fix label html
+    btn.textContent = '';
+    var parts = pillLabel(ed).split(' ');
+    btn.appendChild(document.createTextNode(parts[0] + ' '));
+    var sp = document.createElement('span');
+    sp.className = 'slot';
+    sp.textContent = parts[1] || '';
+    btn.appendChild(sp);
+    btn.addEventListener('click', function(){ select(ed); });
+    pillsEl.appendChild(btn);
+  });
+
+  var q = readQuery();
+  var initial = findEdition(q.date, q.slot);
+  select(initial, { replaceUrl: true, force: true });
+
+  window.addEventListener('popstate', function(){
+    var qq = readQuery();
+    select(findEdition(qq.date, qq.slot), { skipUrl: true, force: true });
+  });
+})();
+</script>
+</body>
+</html>
