@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f5f5f7">
+<title>晨間興趣速報 · 2026-09-23</title>
+<style>
+:root {
+  --canvas: #ffffff;
+  --section: #f5f5f7;
+  --card: #ffffff;
+  --text: #1d1d1f;
+  --secondary: #6e6e73;
+  --tertiary: #86868b;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --red: #ff3b30;
+  --hairline: rgba(0,0,0,0.08);
+  --hairline-solid: #d2d2d7;
+  --material: rgba(255,255,255,0.66);
+  --material-edge: rgba(255,255,255,0.55);
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Helvetica Neue", "PingFang HK", "Noto Sans TC", sans-serif;
+  --ease-out: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --press-duration: 100ms;
+  --crossfade: 200ms;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; height: 100%; }
+body {
+  font-family: var(--font);
+  background: var(--section);
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100%;
+  min-height: 100dvh;
+}
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px 80px;
+  padding-left: max(22px, env(safe-area-inset-left, 0px));
+  padding-right: max(22px, env(safe-area-inset-right, 0px));
+  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+}
+.tabbar-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--material);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--hairline);
+  box-shadow: inset 0 1px 0 var(--material-edge);
+  margin: 0 calc(-1 * max(22px, env(safe-area-inset-left, 0px))) 0 calc(-1 * max(22px, env(safe-area-inset-right, 0px)));
+  padding: 12px max(22px, env(safe-area-inset-left, 0px)) 14px max(22px, env(safe-area-inset-right, 0px));
+  padding-top: calc(12px + env(safe-area-inset-top, 0px));
+}
+.tabs {
+  display: flex; flex-wrap: nowrap; gap: 8px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; padding: 2px 0;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex: 0 0 auto; appearance: none;
+  border: 1px solid var(--hairline-solid);
+  background: var(--canvas); color: var(--text);
+  font: inherit; font-size: 14px; font-weight: 500;
+  letter-spacing: -0.01em; padding: 8px 16px;
+  border-radius: 980px; cursor: pointer; white-space: nowrap;
+  transition: background 180ms var(--ease-out), color 180ms var(--ease-out),
+    border-color 180ms var(--ease-out), transform var(--press-duration) ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+.tab:hover { border-color: #b0b0b5; }
+.tab[aria-selected="true"] { background: var(--blue); border-color: var(--blue); color: #fff; }
+.tab:active { transform: scale(0.97); }
+.tab:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.hero {
+  text-align: center; padding: 40px 12px 28px;
+  background: var(--canvas);
+  margin: 0 calc(-1 * max(22px, env(safe-area-inset-left, 0px))) 0 calc(-1 * max(22px, env(safe-area-inset-right, 0px)));
+  border-bottom: 1px solid var(--hairline);
+}
+.hero-kicker {
+  display: inline-block; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--blue); margin-bottom: 12px;
+}
+.hero h1 {
+  font-size: clamp(26px, 5.5vw, 40px); font-weight: 600;
+  letter-spacing: -0.02em; line-height: 1.08; margin-bottom: 8px;
+}
+.hero .subhead { font-size: 16px; color: var(--secondary); }
+.panels { position: relative; padding-top: 24px; }
+.panel { display: none; opacity: 0; }
+.panel.is-active {
+  display: block; opacity: 1;
+  animation: panelCrossFade var(--crossfade) ease-out;
+}
+.panel.is-active.is-instant { animation: none; }
+@keyframes panelCrossFade {
+  from { opacity: 0; transform: scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+.panel-intro { margin: 4px 0 18px; }
+.panel-intro h2 {
+  font-size: clamp(22px, 3.5vw, 30px); font-weight: 600;
+  letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 6px;
+}
+.panel-intro p { color: var(--secondary); font-size: 15px; max-width: 640px; }
+.stack {
+  display: flex; flex-direction: column; gap: 16px;
+  max-height: none;
+}
+.stack.scrollable {
+  /* multi-item list scrolls inside viewport when needed on tall content */
+}
+.card {
+  background: var(--card); border: 1px solid var(--hairline);
+  border-radius: 18px; padding: 24px 22px 22px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  transition: box-shadow 220ms var(--ease-out);
+}
+.card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+.eyebrow {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
+  color: var(--blue); margin-bottom: 6px;
+}
+.card h3 {
+  font-size: clamp(18px, 2.6vw, 24px); font-weight: 600;
+  letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 12px;
+}
+.story-photo { margin: 0 0 14px; border-radius: 14px; overflow: hidden; background: #eee; }
+.story-photo img { width: 100%; height: auto; display: block; vertical-align: middle; }
+.story-photo .cap { font-size: 11px; color: var(--tertiary); padding: 8px 2px 0; }
+.sec-block { margin-bottom: 14px; }
+.sec-label {
+  display: block; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--blue); margin-bottom: 6px;
+}
+.sec-block p { color: var(--secondary); margin-bottom: 8px; font-size: 15px; }
+.sec-block p:last-child { margin-bottom: 0; }
+.sec-block p strong { color: var(--text); font-weight: 600; }
+.sec-block.why { padding: 14px 16px; background: var(--section); border-radius: 14px; }
+.pair {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 0 14px;
+}
+.pair-item {
+  background: var(--section); border-radius: 12px; padding: 12px 14px;
+}
+.pair-item .k { font-size: 11px; color: var(--tertiary); margin-bottom: 4px; }
+.pair-item .v { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+.take { margin-bottom: 16px; font-size: 15px; }
+.take .label { color: var(--blue); font-weight: 600; margin-right: 6px; }
+.cta {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 14px; font-weight: 500; color: #fff; background: var(--blue);
+  padding: 10px 18px; border-radius: 980px; text-decoration: none;
+  transition: background 180ms var(--ease-out), transform var(--press-duration) ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+.cta:hover { background: var(--blue-hover); text-decoration: none; }
+.cta:active { transform: scale(0.97); }
+.chart-block {
+  margin: 8px 0 16px; padding: 16px 14px 12px;
+  background: var(--section); border-radius: 16px;
+}
+.chart-title { font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+.chart-svg { width: 100%; height: auto; display: block; }
+.chart-cite { margin-top: 10px; font-size: 11px; color: var(--tertiary); }
+.compare { display: grid; gap: 12px; margin: 8px 0 16px; }
+.compare-meta {
+  display: flex; justify-content: space-between; font-size: 13px; color: var(--secondary);
+}
+.compare-meta strong { color: var(--text); font-size: 15px; }
+.compare-track { height: 12px; border-radius: 980px; background: #e8e8ed; overflow: hidden; }
+.compare-fill { height: 100%; border-radius: 980px; background: var(--blue); }
+.source { font-size: 12px; color: var(--tertiary); margin: 0 0 12px; }
+.yt-card {
+  display: grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: start;
+}
+@media (max-width: 520px) {
+  .yt-card { grid-template-columns: 1fr; }
+}
+.yt-thumb {
+  border-radius: 12px; overflow: hidden; background: #111;
+  aspect-ratio: 16/9; width: 100%;
+}
+.yt-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.yt-meta h3 { font-size: 17px; margin-bottom: 4px; }
+.yt-channel { font-size: 12px; color: var(--tertiary); margin-bottom: 8px; }
+.yt-meta p { font-size: 14px; color: var(--secondary); margin-bottom: 8px; }
+.item-count {
+  display: inline-block; font-size: 12px; font-weight: 600;
+  color: var(--tertiary); margin-left: 8px;
+}
+.footer-note {
+  text-align: center; color: var(--tertiary); font-size: 12px;
+  padding: 28px 8px 8px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tab, .cta, .panel.is-active { transition: none !important; animation: none !important; }
+  .tab:active, .cta:active { transform: none; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .tabbar-wrap { background: #f5f5f7; -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="hero">
+    <p class="hero-kicker">Interest Digest · Morning</p>
+    <h1>2026年9月22日 星期三</h1>
+    <p class="subhead">晨間興趣速報 · M6 評測／銀週尾／中環直火／HBM／Worlds／EVA／日潮</p>
+  </header>
+  <div class="tabbar-wrap">
+    <div class="tabs" role="tablist" aria-label="興趣分類">
+      <button class="tab" role="tab" id="tab-tech" data-panel="tech" aria-selected="true" aria-controls="panel-tech" tabindex="0">科技</button><button class="tab" role="tab" id="tab-japan" data-panel="japan" aria-selected="false" aria-controls="panel-japan" tabindex="-1">日本旅遊</button><button class="tab" role="tab" id="tab-food" data-panel="food" aria-selected="false" aria-controls="panel-food" tabindex="-1">美食</button><button class="tab" role="tab" id="tab-invest" data-panel="invest" aria-selected="false" aria-controls="panel-invest" tabindex="-1">投資</button><button class="tab" role="tab" id="tab-games" data-panel="games" aria-selected="false" aria-controls="panel-games" tabindex="-1">遊戲</button><button class="tab" role="tab" id="tab-movies" data-panel="movies" aria-selected="false" aria-controls="panel-movies" tabindex="-1">電影</button><button class="tab" role="tab" id="tab-fashion" data-panel="fashion" aria-selected="false" aria-controls="panel-fashion" tabindex="-1">日潮</button><button class="tab" role="tab" id="tab-youtube" data-panel="youtube" aria-selected="false" aria-controls="panel-youtube" tabindex="-1">YouTube</button>
+    </div>
+  </div>
+  <div class="panels">
+    <section class="panel is-active" id="panel-tech" role="tabpanel" aria-labelledby="tab-tech">
+  <div class="panel-intro">
+    <h2>科技<span class="item-count">4 則</span></h2>
+    <p>M6 Mac mini 開賣翌日：獨立評測、庫存取貨、Geekbench 同 macOS 27。</p>
+  </div>
+  <div class="stack scrollable"><article class="card">
+<p class="eyebrow">TOM&#x27;S HARDWARE</p>
+<h3>Tom&#x27;s Hardware：M6 Mac mini 勁，但價值感被 $899 起價沖淡</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="Tom&#x27;s Hardware：M6 Mac mini 勁，但價值感被 $899 起價沖淡" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · Tom&#x27;s Hardware</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>開賣翌日評測落地：Tom&#x27;s Hardware 指 M6 單核約贏上代 M4 Pro Mac mini <strong>約 21%</strong>，儲存讀寫較 M4 近乎翻倍；但起價由昔日<strong> $599</strong> 經年中加價再升至<strong> $899</strong>（評測機 24GB／512GB <strong>約 $1,399</strong>），認為「平價入門桌面」敘事已淡。Wi-Fi 7、Bluetooth 6、標準 2.5GbE（可選 10GbE +$100）則係實用升級。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>晚刊講「今日開賣」；晨刊用獨立評測同價錢結構，幫你決定要唔要即買定等教育優惠／外置 SSD 配置。</p>
+</div>
+<div class="pair" aria-label="Key facts">
+<div class="pair-item"><div class="k">M6 起價</div><div class="v">899 US$</div></div>
+<div class="pair-item"><div class="k">昔日 M4 起</div><div class="v">599 US$</div></div>
+</div>
+<div class="chart-block"><div class="chart-title">價錢／評測摘錄</div><div class="compare" aria-label="Chart"><div class="compare-row"><div class="compare-meta"><span>M6 起價</span><strong>899 US$</strong></div><div class="compare-track"><div class="compare-fill" style="width:100%"></div></div></div><div class="compare-row"><div class="compare-meta"><span>昔日 M4 起</span><strong>599 US$</strong></div><div class="compare-track"><div class="compare-fill" style="width:67%"></div></div></div><div class="compare-row"><div class="compare-meta"><span>單核 vs M4 Pro</span><strong>21%</strong></div><div class="compare-track"><div class="compare-fill" style="width:8%"></div></div></div></div><p class="chart-cite">價錢與百分比來自 Tom&#x27;s Hardware 9/21 評測；非實驗室統一標準。</p></div>
+<a class="cta" href="https://www.tomshardware.com/desktops/mini-pcs/apple-mac-mini-late-2026-review" target="_blank" rel="noopener">Tom&#x27;s Hardware <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">MACOBSERVER</p>
+<h3>開賣翌日：店舖現貨視配置而定，可查同日取貨</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="開賣翌日：店舖現貨視配置而定，可查同日取貨" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · MacObserver</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>MacObserver 等報道指新 Mac mini／Mac Studio 已到店，但同日取貨視乎當地庫存同精確配置；香港 Apple Store／apple.com/hk 結帳頁可即時睇送貨或取貨檔期。教育價 M6 起約更低一檔，適合學生／教職員先核對資格再下單。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>唔重複「開賣新聞」，改講落地執行：庫存、取貨、教育價——今早落單前最實際。</p>
+</div>
+<a class="cta" href="https://www.macobserver.com/news/mac-mini-studio-same-day-store-pickup/" target="_blank" rel="noopener">MacObserver <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">MACRUMORS</p>
+<h3>Geekbench 7：M6 單核約 4,071、多核約 22,783（開賣前洩）</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="Geekbench 7：M6 單核約 4,071、多核約 22,783（開賣前洩）" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · MacRumors</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>MacRumors 整理開賣前出現的 Geekbench 7：單核約 4,071、多核約 22,783，單核領先當時資料庫內其他 Mac／PC；對比 M5 約高<strong> 12%</strong> 單核、<strong>約 27%</strong> 多核，大致對上 Apple「約 1.2× 多執行緒」宣傳。GPU Metal 分數仍陸續補齊。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>晚刊未深挖跑分；買嚟跑本地 LLM／agent 嘅人可用單核／多核作粗略對標。</p>
+</div>
+<div class="pair" aria-label="Key facts">
+<div class="pair-item"><div class="k">單核</div><div class="v">4071 分</div></div>
+<div class="pair-item"><div class="k">多核</div><div class="v">22783 分</div></div>
+</div>
+<div class="chart-block"><div class="chart-title">Geekbench 7（洩漏樣本）</div><div class="compare" aria-label="Chart"><div class="compare-row"><div class="compare-meta"><span>單核</span><strong>4071 分</strong></div><div class="compare-track"><div class="compare-fill" style="width:18%"></div></div></div><div class="compare-row"><div class="compare-meta"><span>多核</span><strong>22783 分</strong></div><div class="compare-track"><div class="compare-fill" style="width:100%"></div></div></div></div><p class="chart-cite">單一未驗證樣本；實際以量產機為準。</p></div>
+<a class="cta" href="https://www.macrumors.com/2026/09/15/apple-m6-chip-benchmark/" target="_blank" rel="noopener">MacRumors <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">TOM&#x27;S HARDWARE</p>
+<h3>macOS 27：自然語言建 Shortcut、Liquid Glass 可調透明度</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="macOS 27：自然語言建 Shortcut、Liquid Glass 可調透明度" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · Tom&#x27;s Hardware</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>隨 M6 mini 出廠的 macOS 27 Golden Gate，Tom&#x27;s 點名 Shortcuts 可用自然語言生成流程、Liquid Glass 可調透明度、AirDrop 宣稱最高約快<strong> 80%</strong>；Rosetta 唔再預載，macOS 28 起將淘汰非 Apple Silicon native app。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>硬體之外，今早升級／新機開箱最先撞到嘅係系統體驗差異。</p>
+</div>
+<a class="cta" href="https://www.tomshardware.com/desktops/mini-pcs/apple-mac-mini-late-2026-review" target="_blank" rel="noopener">Tom&#x27;s Hardware <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article></div>
+</section><section class="panel" id="panel-japan" role="tabpanel" aria-labelledby="tab-japan" hidden>
+  <div class="panel-intro">
+    <h2>日本旅遊<span class="item-count">4 則</span></h2>
+    <p>銀週尾：高円寺 BELTIES 最後日、下北天高まつり回顧、文創 POPUP。</p>
+  </div>
+  <div class="stack scrollable"><article class="card">
+<p class="eyebrow">ウレぴあ</p>
+<h3>高円寺 BELTIES POPUP：銀週最後日（至 9/23）</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="高円寺 BELTIES POPUP：銀週最後日（至 9/23）" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · ウレぴあ</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>Apple Watch 錶帶品牌 BELTIES 於高円寺設期間限定 POPUP，檔期 9 月 19–23 日，今日係最後一日。若你銀週人仍在中央線沿線，可順道試戴再決定要唔要網購。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>避開晚刊 AWESOME 下北新店；改推「今天截止」嘅高圓寺快閃，行程更緊。</p>
+</div>
+<div class="pair" aria-label="Key facts">
+<div class="pair-item"><div class="k">起</div><div class="v">919 月日</div></div>
+<div class="pair-item"><div class="k">終</div><div class="v">923 月日</div></div>
+</div>
+<div class="chart-block"><div class="chart-title">BELTIES 高円寺</div><svg class="chart-svg" viewBox="0 0 640 220" role="img" aria-label="BELTIES 高円寺"><rect x="40.0" y="50.1" width="100.0" height="129.9" rx="8" fill="#0071e3"/><text x="90.0" y="42.1" text-anchor="middle" font-size="13" font-weight="600" fill="#1d1d1f">919 月日</text><text x="90.0" y="204" text-anchor="middle" font-size="11" fill="#6e6e73">起</text><rect x="500.0" y="49.6" width="100.0" height="130.4" rx="8" fill="#0071e3"/><text x="550.0" y="41.6" text-anchor="middle" font-size="13" font-weight="600" fill="#1d1d1f">923 月日</text><text x="550.0" y="204" text-anchor="middle" font-size="11" fill="#6e6e73">終</text></svg><p class="chart-cite">檔期來自活動報道；以現場為準。</p></div>
+<a class="cta" href="https://ure.pia.co.jp/articles/-/3463316" target="_blank" rel="noopener">ウレぴあ <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">PONY CANYON</p>
+<h3>下北沢「天高まつり」9/19：空き地免費 live＋市集回顧</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="下北沢「天高まつり」9/19：空き地免費 live＋市集回顧" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · PONY CANYON</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>天々高々（アフロ×ヒグチアイ）主办「天高まつり<strong>2026</strong>」已於 <strong>9 月 19 日</strong>在下北沢線路街空き地舉行，免費入場、live＋マーケット。銀週剛過，若你仲未走，可當下北文化節拍的參考，之後同類空き地活動可再跟官方。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>唔再講古著店開幕，轉文化活動節奏——適合鍾意下北音樂／市集嘅行程。</p>
+</div>
+<a class="cta" href="https://news.ponycanyon.co.jp/2026/09/125281" target="_blank" rel="noopener">PONY CANYON <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">時事通信</p>
+<h3>FUFUTIETIE 神佛アート玩具：TSUTAYA 下北沢等三店 POPUP</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1528164344705-47542687000d?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="FUFUTIETIE 神佛アート玩具：TSUTAYA 下北沢等三店 POPUP" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · 時事通信</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>神仏×アートトイ「FUFUTIETIE」於 TSUTAYA BOOKSTORE 下北沢、草叢 BOOKS 等三店同步 POPUP（約 9/16–10/31）。下北掃店時可加一站書店／玩具，同 vintage 路線錯峰。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>晚刊偏古著；晨刊補文創／書店線，豐富半日下北。</p>
+</div>
+<a class="cta" href="https://www.jiji.com/jc/article?g=prt&amp;k=000000020.000171495" target="_blank" rel="noopener">時事通信 <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">高円寺純情商店街</p>
+<h3>高円寺純情商店街×紲星あかり：みぐし素麵至 9/30</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="高円寺純情商店街×紲星あかり：みぐし素麵至 9/30" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · 高円寺純情商店街</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>純情商店街與 VTuber 紲星きずなあかり 推創作料理聯動，店家供應「あかりちゃんのお御髪みぐし素麵」等，檔期至 <strong>9 月 30 日</strong>。適合已經走過 Look Street 古著、想食嘢打卡嘅人。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>把高圓寺從「只掃衫」變成「衫＋食堂」一日線。</p>
+</div>
+<a class="cta" href="https://www.kouenji.or.jp/event/spot/11899.html" target="_blank" rel="noopener">高円寺純情商店街 <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article></div>
+</section><section class="panel" id="panel-food" role="tabpanel" aria-labelledby="tab-food" hidden>
+  <div class="panel-intro">
+    <h2>美食<span class="item-count">4 則</span></h2>
+    <p>中環 180° 直火、The Spoon Focaccia、Blue Box Café——全係香港。</p>
+  </div>
+  <div class="stack scrollable"><article class="card">
+<p class="eyebrow">YAHOO 新聞</p>
+<h3>180° Modern Fire Grill 中環：9/18 開幕直火燒</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="180° Modern Fire Grill 中環：9/18 開幕直火燒" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · Yahoo 新聞</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>HORA 集團於雲咸街開直火概念店，<strong>9 月 18 日</strong>起供應；招牌煙燻半雞約 HK<strong>$328</strong>（鹽水 12 小時＋乾式熟成 2 日＋櫻桃木煙燻 3 小時再備長炭），牛骨髓煲仔飯約 HK<strong>$128</strong>。午市／晚市至午夜，定位微醺直火而非 fine dining。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>錯開晚刊 Ankôma／TATE；想食火氣同焦香、中環收工聚餐可排。</p>
+</div>
+<div class="pair" aria-label="Key facts">
+<div class="pair-item"><div class="k">煙燻半雞</div><div class="v">328 HKD</div></div>
+<div class="pair-item"><div class="k">牛骨髓飯</div><div class="v">128 HKD</div></div>
+</div>
+<div class="chart-block"><div class="chart-title">180° 招牌價</div><svg class="chart-svg" viewBox="0 0 640 220" role="img" aria-label="180° 招牌價"><rect x="40.0" y="49.6" width="100.0" height="130.4" rx="8" fill="#0071e3"/><text x="90.0" y="41.6" text-anchor="middle" font-size="13" font-weight="600" fill="#1d1d1f">328 HKD</text><text x="90.0" y="204" text-anchor="middle" font-size="11" fill="#6e6e73">煙燻半雞</text><rect x="500.0" y="129.1" width="100.0" height="50.9" rx="8" fill="#0071e3"/><text x="550.0" y="121.1" text-anchor="middle" font-size="13" font-weight="600" fill="#1d1d1f">128 HKD</text><text x="550.0" y="204" text-anchor="middle" font-size="11" fill="#6e6e73">牛骨髓飯</text></svg><p class="chart-cite">價錢來自 9/22 報道；以店內為準。</p></div>
+<a class="cta" href="https://hk.news.yahoo.com/%E4%B8%AD%E7%92%B0%E7%BE%8E%E9%A3%9F-%E4%B8%AD%E7%92%B0%E7%9B%B4%E7%81%AB%E7%87%92%E7%83%A4%E6%96%B0%E5%BA%97-180-modern-fire-144136438.html" target="_blank" rel="noopener">Yahoo 新聞 <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">ESQUIRE HK</p>
+<h3>The Spoon Focaccia 嘉咸街：意南融合現烤</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="The Spoon Focaccia 嘉咸街：意南融合現烤" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · Esquire HK</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>The Spoon 姐妹店於嘉咸街以鮮紅裝修主打 focaccia，主廚 Dylan 將馬來西亞香料揉入地中海麵團；全日約 09:30–22:00，開幕即有排隊。適合中環想食烘焙小餐、唔想再入 Commune／Ankôma 價位嘅人。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>全港新店、非連鎖；晨刊補「排隊烘焙」條線。</p>
+</div>
+<a class="cta" href="https://www.esquirehk.com/lifestyle/the-spoon-focaccia-central" target="_blank" rel="noopener">Esquire HK <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">JESSICA HK</p>
+<h3>Blue Box Café 利園三期：Tiffany × Andō 主廚</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="Blue Box Café 利園三期：Tiffany × Andō 主廚" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · Jessica HK</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>Tiffany 銅鑼灣利園三期專門店附設 Blue Box Café，聯乘米芝蓮 Andō 主廚 Agustin Balbi；報道點名北海道帶子 Carpaccio、大蝦沙律、西班牙紅蝦飯等。同區有 Commune，但氣氛偏珠寶屋下午茶。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>銅鑼灣想打卡下午茶、又唔想再訂 Ankôma tasting，可作備選。</p>
+</div>
+<a class="cta" href="https://www.jessicahk.com/lifestyle/new-restaurants-in-hong-kong" target="_blank" rel="noopener">Jessica HK <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">THE HK HUB</p>
+<h3>九月新店清單：QUAN／Hokkien House／TANAKA 中環</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="九月新店清單：QUAN／Hokkien House／TANAKA 中環" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · The HK HUB</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>The HK HUB 九月榜亦點名中環 QUAN 新派中菜、Hokkien House 現代福建菜、TANAKA 和牛 omakase，以及堅尼地城 CHIU San 潮州×日式。若 180°／Focaccia 訂唔到，可沿中環–西半山換口味。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>一次過擴充香港九月新店短名單，方便週末連續試。</p>
+</div>
+<a class="cta" href="https://thehkhub.com/new-restaurant-in-hong-kong-september-2026/" target="_blank" rel="noopener">The HK HUB <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article></div>
+</section><section class="panel" id="panel-invest" role="tabpanel" aria-labelledby="tab-invest" hidden>
+  <div class="panel-intro">
+    <h2>投資<span class="item-count">4 則</span></h2>
+    <p>三星 HBM 市佔／KB 60 萬目標、良率放量同長約短缺敘事。</p>
+  </div>
+  <div class="stack scrollable"><article class="card">
+<p class="eyebrow">SEOUL ECONOMIC DAILY</p>
+<h3>KB 證券：三星 HBM 份額 Q4 或近 40%，目標價 ₩600,000</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="KB 證券：三星 HBM 份額 Q4 或近 40%，目標價 ₩600,000" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · Seoul Economic Daily</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>KB 指三星 HBM 市佔可由 Q2 <strong>約 33%</strong> 升至 Q4 近<strong> 40%</strong>；HBM4 第三季收入料按季三倍以上、下半年佔 HBM 收入逾<strong> 60%</strong>。目標價 ₩600,000、維持買入，並提及 <strong>2027</strong>–29 股東回報政策稍後公布。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>晚刊講即日 +2.7%；晨刊改長線市佔同券商目標價框架。</p>
+</div>
+<div class="pair" aria-label="Key facts">
+<div class="pair-item"><div class="k">Q2 市佔</div><div class="v">33%</div></div>
+<div class="pair-item"><div class="k">Q4 展望</div><div class="v">40%</div></div>
+</div>
+<div class="chart-block"><div class="chart-title">KB 情境</div><div class="compare" aria-label="Chart"><div class="compare-row"><div class="compare-meta"><span>Q2 市佔</span><strong>33%</strong></div><div class="compare-track"><div class="compare-fill" style="width:33.333333333333336%"></div></div></div><div class="compare-row"><div class="compare-meta"><span>Q4 展望</span><strong>40%</strong></div><div class="compare-track"><div class="compare-fill" style="width:66.66666666666667%"></div></div></div><div class="compare-row"><div class="compare-meta"><span>目標價</span><strong>600000 ₩</strong></div><div class="compare-track"><div class="compare-fill" style="width:100.0%"></div></div></div></div><p class="chart-cite">券商估算，非保證回報。</p></div>
+<a class="cta" href="https://en.sedaily.com/finance/2026/09/11/samsung-electronics-hbm-share-to-near-40-percent-kb-sees" target="_blank" rel="noopener">Seoul Economic Daily <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">SEOUL ECONOMIC DAILY</p>
+<h3>HBM4「黃金良率」約 80%：明年月產能或 18→25 萬片</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="HBM4「黃金良率」約 80%：明年月產能或 18→25 萬片" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · Seoul Economic Daily</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>首爾經濟報道三星 HBM4 良率企穩<strong>約 80%</strong> 後轉向放量；平均每月 wafer input 今年約 18 萬片、明年或約 25 萬片（+<strong>約 40%</strong>）。HBM4 家族比重上升有助產品組合轉向高毛利。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>跟產能曲線比跟單日股價更貼近供應格局。</p>
+</div>
+<div class="pair" aria-label="Key facts">
+<div class="pair-item"><div class="k">今年約</div><div class="v">18 萬片/月</div></div>
+<div class="pair-item"><div class="k">明年約</div><div class="v">25 萬片/月</div></div>
+</div>
+<div class="chart-block"><div class="chart-title">HBM wafer input（報道）</div><svg class="chart-svg" viewBox="0 0 640 220" role="img" aria-label="HBM wafer input（報道）"><rect x="40.0" y="86.1" width="100.0" height="93.9" rx="8" fill="#0071e3"/><text x="90.0" y="78.1" text-anchor="middle" font-size="13" font-weight="600" fill="#1d1d1f">18 萬片/月</text><text x="90.0" y="204" text-anchor="middle" font-size="11" fill="#6e6e73">今年約</text><rect x="500.0" y="49.6" width="100.0" height="130.4" rx="8" fill="#0071e3"/><text x="550.0" y="41.6" text-anchor="middle" font-size="13" font-weight="600" fill="#1d1d1f">25 萬片/月</text><text x="550.0" y="204" text-anchor="middle" font-size="11" fill="#6e6e73">明年約</text></svg><p class="chart-cite">產能為媒體引述展望。</p></div>
+<a class="cta" href="https://en.sedaily.com/finance/2026/09/20/samsung-hits-80-percent-yield-on-hbm4-shifts-focus-to-volume" target="_blank" rel="noopener">Seoul Economic Daily <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">TRADE TALK JOURNAL</p>
+<h3>Counterpoint：Q2 三星 HBM 33% vs SK 海力士 50%</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="Counterpoint：Q2 三星 HBM 33% vs SK 海力士 50%" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · Trade Talk Journal</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>市佔由 Q1 <strong>約 21%</strong> 跳至<strong> 33%</strong>，SK 由<strong> 58%</strong> 降至 50%，差距由 37 個百分點收窄至 17。資金解讀係 AI 記憶體雙雄格局加速均勢化，亦解釋近日韓股記憶體板塊波動放大。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>用第三方數據核對「追落後」敘事，避免只看單一股評。</p>
+</div>
+<a class="cta" href="https://tradetalkjournal.com/2026/09/21/samsung-and-sk-hynix-stocks-are-ripping-higher-today-heres-what-changed/" target="_blank" rel="noopener">Trade Talk Journal <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">SEOUL ECONOMIC DAILY</p>
+<h3>記憶體短缺或延至 2028：大廠搶簽五年長約</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="記憶體短缺或延至 2028：大廠搶簽五年長約" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · Seoul Economic Daily</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>KB 等指美中雲端巨頭對五年長約需求上升，新產線從建成到滿產逾三年，令緊平衡可能維持到 <strong>2028</strong>。好處係價格支撐，風險係需求若放緩時回調更深。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>週期交易者要同時睇「缺貨溢價」同「高位回吐」。</p>
+</div>
+<a class="cta" href="https://en.sedaily.com/finance/2026/09/11/samsung-electronics-hbm-share-to-near-40-percent-kb-sees" target="_blank" rel="noopener">Seoul Economic Daily <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article></div>
+</section><section class="panel" id="panel-games" role="tabpanel" aria-labelledby="tab-games" hidden>
+  <div class="panel-intro">
+    <h2>遊戲<span class="item-count">4 則</span></h2>
+    <p>Liquid vs C9、HLE／T1 Worlds 前瞻、Metroid／Kirby Switch 2。</p>
+  </div>
+  <div class="stack scrollable"><article class="card">
+<p class="eyebrow">WHITE MARKET NEWS</p>
+<h3>LCS：Liquid vs Cloud9 勝者組決賽 9/27</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="LCS：Liquid vs Cloud9 勝者組決賽 9/27" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · White Market News</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>Team Liquid 3–0 FlyQuest 鎖定 Worlds 後，<strong>9 月 27 日</strong>將對 Cloud9 打 winners final——勝者直入 Worlds Swiss，敗者仍有敗部機會。距離開打約四日，可重溫兩隊春季交手。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>晚刊已鎖美國場地；晨刊改睇區內下一場資格賽焦點。</p>
+</div>
+<div class="pair" aria-label="Key facts">
+<div class="pair-item"><div class="k">勝者組決</div><div class="v">927 月日</div></div>
+</div>
+<div class="chart-block"><div class="chart-title">LCS 關鍵日</div><svg class="chart-svg" viewBox="0 0 640 220" role="img" aria-label="LCS 關鍵日"><rect x="40.0" y="49.6" width="100.0" height="130.4" rx="8" fill="#0071e3"/><text x="90.0" y="41.6" text-anchor="middle" font-size="13" font-weight="600" fill="#1d1d1f">927 月日</text><text x="90.0" y="204" text-anchor="middle" font-size="11" fill="#6e6e73">勝者組決</text></svg><p class="chart-cite">日期按賽事報道；以 LCS 官方為準。</p></div>
+<a class="cta" href="https://news.white.market/latest/team-liquid-clinches-worlds-spot-2026-sweeps-flyquest/" target="_blank" rel="noopener">White Market News <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">YOUTUBE / PSYCHOPATHIC PORO</p>
+<h3>HLE Worlds 前瞻片出爐：Zeus／Gumayusi 陣容拆解</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="HLE Worlds 前瞻片出爐：Zeus／Gumayusi 陣容拆解" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · YouTube / Psychopathic Poro</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>Psychopathic Poro 等頻道已上架 HLE（Hanwha Life）<strong>Worlds 2026</strong> 球員與體系拆解（約 13 分鐘）。LCK 夏季決賽 GEN vs HLE 完整場亦仍係熱門重溫，方便估韓隊種子戰力。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>場地新聞已夠；改補戰力研究，睇波更有上下文。</p>
+</div>
+<a class="cta" href="https://www.youtube.com/watch?v=sNmLG3Jbd84" target="_blank" rel="noopener">YouTube / Psychopathic Poro <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">NINTENDO LIFE</p>
+<h3>Metroid Ravenous：Switch 2、2027-01-28</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="Metroid Ravenous：Switch 2、2027-01-28" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · Nintendo Life</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>Nintendo Direct 公布 2D 新作《<strong>Metroid Ravenous</strong>》，鎖定 <strong>Switch 2</strong>，發售 <strong>2027 年 <strong>1 月 28 日</strong></strong>，並有 amiibo／特別版。系列粉絲可開始排預購同體驗版節奏。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>同資格賽錯開：硬核第一方日程。</p>
+</div>
+<div class="pair" aria-label="Key facts">
+<div class="pair-item"><div class="k">Metroid</div><div class="v">2027-01-28</div></div>
+</div>
+<div class="chart-block"><div class="chart-title">發售</div><div class="compare" aria-label="Chart"><div class="compare-row"><div class="compare-meta"><span>Metroid</span><strong>2027-01-28</strong></div><div class="compare-track"><div class="compare-fill" style="width:100.0%"></div></div></div></div><p class="chart-cite">來自 Direct／Nintendo Life。</p></div>
+<a class="cta" href="https://www.nintendolife.com/news/2026/09/metroid-ravenous-announced-for-switch-2-release-date-confirmed" target="_blank" rel="noopener">Nintendo Life <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">GAME INFORMER</p>
+<h3>Kirby and the World Beyond：2027 春 Switch 2 開放世界</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="Kirby and the World Beyond：2027 春 Switch 2 開放世界" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · Game Informer</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>同場 Direct 公布 3D 自由探索 Kirby，強調移動向 Copy Ability，目標 <strong>2027 年</strong>春、迎合 35 週年。偏輕鬆向，可同 Metroid 組成 <strong>Switch 2</strong> 第一方雙線。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>家庭向／休閒玩家嘅長線 wishlist。</p>
+</div>
+<a class="cta" href="https://gameinformer.com/nintendo-direct/2026/09/09/kirby-and-the-world-beyond-is-a-free-roaming-kirby-game-coming-next" target="_blank" rel="noopener">Game Informer <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article></div>
+</section><section class="panel" id="panel-movies" role="tabpanel" aria-labelledby="tab-movies" hidden>
+  <div class="panel-intro">
+    <h2>電影<span class="item-count">4 則</span></h2>
+    <p>EVA 30 週年明日開跑、《歡迎來龍》票房、《空槍》倒數。</p>
+  </div>
+  <div class="stack scrollable"><article class="card">
+<p class="eyebrow">PCM</p>
+<h3>EVA 30 週年港映：9/24 起六部劇場版順序重映</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="EVA 30 週年港映：9/24 起六部劇場版順序重映" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · PCM</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>「EVANGELION 30th Hong Kong Movie Fest. <strong>2026</strong>」明日（9/24）起開跑，按週上映舊劇場版《死與新生》《Air／真心為你》及新劇場版四部。iSQUARE 英皇 9/25–11/12 有限定店；啟德雙子匯「渚薰展」同期。每人每票限領香港限定主視覺典藏卡。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>屬特別節目／重映線，補足一般新片票房之外嘅週末選擇。</p>
+</div>
+<div class="pair" aria-label="Key facts">
+<div class="pair-item"><div class="k">開幕</div><div class="v">924 月日</div></div>
+<div class="pair-item"><div class="k">限定店起</div><div class="v">925 月日</div></div>
+</div>
+<div class="chart-block"><div class="chart-title">EVA Fest</div><svg class="chart-svg" viewBox="0 0 640 220" role="img" aria-label="EVA Fest"><rect x="40.0" y="49.7" width="100.0" height="130.3" rx="8" fill="#0071e3"/><text x="90.0" y="41.7" text-anchor="middle" font-size="13" font-weight="600" fill="#1d1d1f">924 月日</text><text x="90.0" y="204" text-anchor="middle" font-size="11" fill="#6e6e73">開幕</text><rect x="500.0" y="49.6" width="100.0" height="130.4" rx="8" fill="#0071e3"/><text x="550.0" y="41.6" text-anchor="middle" font-size="13" font-weight="600" fill="#1d1d1f">925 月日</text><text x="550.0" y="204" text-anchor="middle" font-size="11" fill="#6e6e73">限定店起</text></svg><p class="chart-cite">檔期來自新映／PCM；場次以戲院為準。</p></div>
+<a class="cta" href="https://www.pcmarket.com.hk/evangelion-30th-movie-fest-2026/" target="_blank" rel="noopener">PCM <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">票房整理</p>
+<h3>《歡迎來龍餐館》開畫約兩日票房約 69 萬港元</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="《歡迎來龍餐館》開畫約兩日票房約 69 萬港元" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · 票房整理</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>沈騰主演、<strong>9 月 11 日</strong>港澳上映的《歡迎來龍餐館》，有統計指開畫約兩日累計約 69 萬港元；之後仍錄得週榜位置。若未入場，可參考口碑同剩餘排片再決定週末場。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>晚刊講「已上映」；晨刊補早期票房量級，方便判斷熱度。</p>
+</div>
+<div class="pair" aria-label="Key facts">
+<div class="pair-item"><div class="k">約兩日</div><div class="v">69 萬 HKD</div></div>
+</div>
+<div class="chart-block"><div class="chart-title">開畫摘錄</div><svg class="chart-svg" viewBox="0 0 640 220" role="img" aria-label="開畫摘錄"><rect x="40.0" y="49.6" width="100.0" height="130.4" rx="8" fill="#0071e3"/><text x="90.0" y="41.6" text-anchor="middle" font-size="13" font-weight="600" fill="#1d1d1f">69 萬 HKD</text><text x="90.0" y="204" text-anchor="middle" font-size="11" fill="#6e6e73">約兩日</text></svg><p class="chart-cite">第三方整理，非官方最終票房。</p></div>
+<a class="cta" href="https://www.sgjajyfxa.com/archives/41530" target="_blank" rel="noopener">票房整理 <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">香港商報</p>
+<h3>《空槍》倒數兩日：9/25 港映、片長約 160 分鐘</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="《空槍》倒數兩日：9/25 港映、片長約 160 分鐘" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · 香港商報</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>梁家輝、朱一龍等主演港式犯罪片《空槍》<strong>9 月 25 日</strong>香港上映；宣傳強調廣東話對決同約 160 分鐘片長。開畫週末或同《我阿爹》優先場撞期，宜提早揀場。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>臨場倒數＋片長提醒，唔重複晚刊送飛活動標題。</p>
+</div>
+<div class="pair" aria-label="Key facts">
+<div class="pair-item"><div class="k">港映</div><div class="v">925 月日</div></div>
+<div class="pair-item"><div class="k">片長約</div><div class="v">160 分鐘</div></div>
+</div>
+<div class="chart-block"><div class="chart-title">《空槍》</div><div class="compare" aria-label="Chart"><div class="compare-row"><div class="compare-meta"><span>港映</span><strong>925 月日</strong></div><div class="compare-track"><div class="compare-fill" style="width:100%"></div></div></div><div class="compare-row"><div class="compare-meta"><span>片長約</span><strong>160 分鐘</strong></div><div class="compare-track"><div class="compare-fill" style="width:17%"></div></div></div></div><p class="chart-cite">檔期／片長按港媒整理。</p></div>
+<a class="cta" href="https://hkcd.com/hkcdweb/content/2026/09/21/content_8776357.html" target="_blank" rel="noopener">香港商報 <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">WMOOV</p>
+<h3>《我阿爹想旅行》：9/25 優先場、10/15 正式</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="《我阿爹想旅行》：9/25 優先場、10/15 正式" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · WMOOV</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>張家輝、蒙嘉慧合作作品公布優先場 <strong>9 月 25 日</strong>、正式公映 <strong>10 月 15 日</strong>。想避開槍戰可排溫情優先場；正式檔則接近 Worlds 開幕，日程要預留。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>家庭向備選，同 EVA／《空槍》組成今週末三段選擇。</p>
+</div>
+<a class="cta" href="https://wmoov.com/movie/details/73145" target="_blank" rel="noopener">WMOOV <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article></div>
+</section><section class="panel" id="panel-fashion" role="tabpanel" aria-labelledby="tab-fashion" hidden>
+  <div class="panel-intro">
+    <h2>日潮<span class="item-count">4 則</span></h2>
+    <p>Graphpaper 燈芯絨／PUMA、YASHIKI Karita、Cornier denim 延期。</p>
+  </div>
+  <div class="stack scrollable"><article class="card">
+<p class="eyebrow">MARK</p>
+<h3>Graphpaper：Soft Knit Corduroy Jacket ¥55,000</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="Graphpaper：Soft Knit Corduroy Jacket ¥55,000" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · MARK</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p><strong>2026</strong>AW 針織燈芯絨西裝外套（GM263-20110B）9/5 起於官方／MARK 等上架，灰／黑，尺寸 1／2／2_INT，稅込<strong> ¥55,000</strong>；同系列 Wide Chef Pants<strong> ¥37,400</strong>。官網英文頁曾標 restock 提示，適合追 Graphpaper 結構感外套嘅人。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>極簡日潮核心單品，價錢同SKU清晰，方便決定要唔要今季入手。</p>
+</div>
+<div class="pair" aria-label="Key facts">
+<div class="pair-item"><div class="k">Jacket</div><div class="v">55000 ¥</div></div>
+<div class="pair-item"><div class="k">Chef Pants</div><div class="v">37400 ¥</div></div>
+</div>
+<div class="chart-block"><div class="chart-title">Graphpaper 燈芯絨</div><div class="compare" aria-label="Chart"><div class="compare-row"><div class="compare-meta"><span>Jacket</span><strong>55000 ¥</strong></div><div class="compare-track"><div class="compare-fill" style="width:100%"></div></div></div><div class="compare-row"><div class="compare-meta"><span>Chef Pants</span><strong>37400 ¥</strong></div><div class="compare-track"><div class="compare-fill" style="width:68%"></div></div></div></div><p class="chart-cite">稅込價來自 MARK 9/5 發售整理。</p></div>
+<a class="cta" href="https://www.mark.style/blog/detail/1461" target="_blank" rel="noopener">MARK <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">ANYTHING GOES</p>
+<h3>Graphpaper × PUMA H-STREET：¥16,500</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="Graphpaper × PUMA H-STREET：¥16,500" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · Anything Goes</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>PUMA for Graphpaper H-STREET 以 2003 生活款為底，尼龍＋麂皮同色更新，Brown，尺碼約 23.5–29 cm，稅込<strong> ¥16,500</strong>；與 Cotton Wool Ripple 高領／圓領長袖（<strong>約 ¥23,100–¥24,200</strong>）同波 9/5 配信。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>相對外套更易入手嘅聯名波鞋，完成「上身 Graphpaper、腳踏 H-STREET」。</p>
+</div>
+<div class="pair" aria-label="Key facts">
+<div class="pair-item"><div class="k">售價</div><div class="v">16500 ¥</div></div>
+</div>
+<div class="chart-block"><div class="chart-title">H-STREET</div><div class="compare" aria-label="Chart"><div class="compare-row"><div class="compare-meta"><span>售價</span><strong>16500 ¥</strong></div><div class="compare-track"><div class="compare-fill" style="width:100%"></div></div></div></div><p class="chart-cite">稅込；庫存視店舖。</p></div>
+<a class="cta" href="https://anythinggoes.jp/blogs/topics/release-9-5-graphpaper-2026aw-new-delivery" target="_blank" rel="noopener">Anything Goes <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">ONLINE PARCO</p>
+<h3>YASHIKI Karita Half Zip Knit：¥37,950・残りわずか</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="YASHIKI Karita Half Zip Knit：¥37,950・残りわずか" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · ONLINE PARCO</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>26AW「苅田」半拉鍊針織（YSK-26AW-KN06，GREIGE）於名古屋 PARCO／ONLINE PARCO 仍有售，稅込<strong> ¥37,950</strong>，銷售自 9/5 12:00；多碼標示残りわずか。<strong>100%</strong> 棉、和服肩線、袖口矢絣，意象秋收稻田。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>yashiki 新作仍有殘碼，想收極簡日系針織要快。</p>
+</div>
+<div class="pair" aria-label="Key facts">
+<div class="pair-item"><div class="k">售價</div><div class="v">37950 ¥</div></div>
+</div>
+<div class="chart-block"><div class="chart-title">Karita Half Zip</div><div class="compare" aria-label="Chart"><div class="compare-row"><div class="compare-meta"><span>售價</span><strong>37950 ¥</strong></div><div class="compare-track"><div class="compare-fill" style="width:100%"></div></div></div></div><p class="chart-cite">PARCO 標價；庫存變動快。</p></div>
+<a class="cta" href="https://online.parco.jp/shop/g/gP002456-02294/" target="_blank" rel="noopener">ONLINE PARCO <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article><article class="card">
+<p class="eyebrow">CORNIER</p>
+<h3>Cornier：Silk/Cotton Vintage Denim 延期・今日無新 drop</h3>
+<figure class="story-photo">
+<img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="Cornier：Silk/Cotton Vintage Denim 延期・今日無新 drop" loading="lazy" decoding="async">
+<figcaption class="cap">真實圖片 · Cornier</figcaption>
+</figure>
+<div class="sec-block"><span class="sec-label">摘要</span>
+<p>Cornier 官方通知 <strong>2026</strong>SS 公開的 SILK/COTTON VINTAGE DENIM PANTS 因生產延遲，發售日未定，將於官網再公布。其他 26SS 羊毛／Finx 棉單品仍在線上；今日未見對標 Graphpaper 級別的全新 drop 公告。</p>
+</div>
+<div class="sec-block why"><span class="sec-label">點解你要睇</span>
+<p>如實標示——追 cornier 牛仔褲要等；唔好當有貨衝。</p>
+</div>
+<a class="cta" href="https://cornier-factory.com/ja-us/blogs/event/notice-regarding-the-silk-cotton-vintage-denim-pants" target="_blank" rel="noopener">Cornier <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</article></div>
+</section><section class="panel" id="panel-youtube" role="tabpanel" aria-labelledby="tab-youtube" hidden>
+  <div class="panel-intro">
+    <h2>YouTube 精選<span class="item-count">5 則</span></h2>
+    <p>Composio personal YouTube API 正常；5 條經 search + details batch。</p>
+  </div>
+  <div class="stack scrollable"><article class="card yt-card">
+  <a class="yt-thumb" href="https://www.youtube.com/watch?v=4Rvy_efm_q8" target="_blank" rel="noopener">
+    <img src="https://i.ytimg.com/vi/4Rvy_efm_q8/hqdefault.jpg" alt="M6 Mac Mini Unboxing and Review! Get the 1TB. 256 is pointless…" loading="lazy" decoding="async">
+  </a>
+  <div class="yt-meta">
+    <h3>M6 Mac Mini Unboxing and Review! Get the 1TB. 256 is pointless…</h3>
+    <p class="yt-channel">Tech Dad</p>
+    <p>開賣日完整開箱：建議直接上 1TB，覺得 256GB 基配置意義不大；片長約 8 分鐘，約 7.3k 觀看。</p>
+    <div class="sec-block why" style="margin-top:8px"><span class="sec-label">點解你要睇</span><p>剛睇完 Tom&#x27;s 文字評測，用開箱片對照實際 ports／開機體驗。</p></div>
+    <a class="cta" href="https://www.youtube.com/watch?v=4Rvy_efm_q8" target="_blank" rel="noopener">YouTube 觀看 <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
+</article><article class="card yt-card">
+  <a class="yt-thumb" href="https://www.youtube.com/watch?v=sNmLG3Jbd84" target="_blank" rel="noopener">
+    <img src="https://i.ytimg.com/vi/sNmLG3Jbd84/hqdefault.jpg" alt="Everything YOU Need to Know About HLE for Worlds 2026" loading="lazy" decoding="async">
+  </a>
+  <div class="yt-meta">
+    <h3>Everything YOU Need to Know About HLE for Worlds 2026</h3>
+    <p class="yt-channel">Psychopathic Poro</p>
+    <p>HLE（Zeus／Kanavi／Zeka／Gumayusi／Delight）Worlds 2026 戰力拆解，約 13 分半，2.6 萬觀看。</p>
+    <div class="sec-block why" style="margin-top:8px"><span class="sec-label">點解你要睇</span><p>美國場地已定，改補韓隊種子研究。</p></div>
+    <a class="cta" href="https://www.youtube.com/watch?v=sNmLG3Jbd84" target="_blank" rel="noopener">YouTube 觀看 <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
+</article><article class="card yt-card">
+  <a class="yt-thumb" href="https://www.youtube.com/watch?v=fQFeYy7ZqPU" target="_blank" rel="noopener">
+    <img src="https://i.ytimg.com/vi/fQFeYy7ZqPU/hqdefault.jpg" alt="GEN vs HLE | 2026 Wooribank LCK Grand Finals" loading="lazy" decoding="async">
+  </a>
+  <div class="yt-meta">
+    <h3>GEN vs HLE | 2026 Wooribank LCK Grand Finals</h3>
+    <p class="yt-channel">LCK Global</p>
+    <p>LCK 夏季總決賽完整場（逾 5 小時 VOD），逾 230 萬觀看，官方英文頻道。</p>
+    <div class="sec-block why" style="margin-top:8px"><span class="sec-label">點解你要睇</span><p>想重溫 HLE 晉級路徑同 GEN 交手，呢條係權威片源。</p></div>
+    <a class="cta" href="https://www.youtube.com/watch?v=fQFeYy7ZqPU" target="_blank" rel="noopener">YouTube 觀看 <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
+</article><article class="card yt-card">
+  <a class="yt-thumb" href="https://www.youtube.com/watch?v=9zIIFI42V5w" target="_blank" rel="noopener">
+    <img src="https://i.ytimg.com/vi/9zIIFI42V5w/hqdefault.jpg" alt="【2026🇭🇰香港美食】「區區567」殺入青衣！$50$60$70 平價小店" loading="lazy" decoding="async">
+  </a>
+  <div class="yt-meta">
+    <h3>【2026🇭🇰香港美食】「區區567」殺入青衣！$50$60$70 平價小店</h3>
+    <p class="yt-channel">樂力Channel</p>
+    <p>青衣長康邨出發，$50／$60／$70 三連挑戰非連鎖小店，約 34 分鐘全自費。</p>
+    <div class="sec-block why" style="margin-top:8px"><span class="sec-label">點解你要睇</span><p>美食 tab 偏新店高價；呢條補香港平價日常線。</p></div>
+    <a class="cta" href="https://www.youtube.com/watch?v=9zIIFI42V5w" target="_blank" rel="noopener">YouTube 觀看 <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
+</article><article class="card yt-card">
+  <a class="yt-thumb" href="https://www.youtube.com/watch?v=KrYQ-5IMHHE" target="_blank" rel="noopener">
+    <img src="https://i.ytimg.com/vi/KrYQ-5IMHHE/hqdefault.jpg" alt="Everything YOU Need to Know About T1 for Worlds 2026" loading="lazy" decoding="async">
+  </a>
+  <div class="yt-meta">
+    <h3>Everything YOU Need to Know About T1 for Worlds 2026</h3>
+    <p class="yt-channel">Psychopathic Poro</p>
+    <p>T1 Worlds 2026 前瞻拆解，同 HLE 片同一系列，方便對照 LCK 雙雄。</p>
+    <div class="sec-block why" style="margin-top:8px"><span class="sec-label">點解你要睇</span><p>Faker 隊熱度高，系列睇完對瑞士輪更有感覺。</p></div>
+    <a class="cta" href="https://www.youtube.com/watch?v=KrYQ-5IMHHE" target="_blank" rel="noopener">YouTube 觀看 <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
+</article></div>
+</section>
+  </div>
+  <p class="footer-note">Interest Digest · Chung Hin · 2026-09-23 晨刊 · 唔覆蓋舊刊，可喺主頁切換日期</p>
+</div>
+<script>
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+  var reduceMotion = false;
+  try { reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  function activate(id, opts) {
+    opts = opts || {};
+    var instant = !!opts.instant || reduceMotion;
+    tabs.forEach(function (t) {
+      var on = t.getAttribute('data-panel') === id;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+    });
+    panels.forEach(function (p) {
+      var on = p.id === 'panel-' + id;
+      p.classList.remove('is-active', 'is-instant');
+      if (on) {
+        if (instant) p.classList.add('is-instant');
+        void p.offsetWidth;
+        p.classList.add('is-active');
+        p.removeAttribute('hidden');
+      } else {
+        p.setAttribute('hidden', '');
+      }
+    });
+    try {
+      var base = location.href.split('#')[0];
+      history.replaceState(null, '', base + '#' + id);
+    } catch (e) {}
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () { activate(t.getAttribute('data-panel')); });
+  });
+  var tablist = document.querySelector('[role="tablist"]');
+  if (tablist) {
+    tablist.addEventListener('keydown', function (e) {
+      var i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      var next = -1;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (i + 1) % tabs.length;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (i - 1 + tabs.length) % tabs.length;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = tabs.length - 1;
+      if (next >= 0) { e.preventDefault(); tabs[next].focus(); activate(tabs[next].getAttribute('data-panel')); }
+    });
+  }
+  var hash = (location.hash || '').replace(/^#/, '');
+  var valid = { tech:1, japan:1, food:1, invest:1, games:1, movies:1, youtube:1 };
+  activate(valid[hash] ? hash : 'tech', { instant: true });
+})();
+</script>
+</body>
+</html>
